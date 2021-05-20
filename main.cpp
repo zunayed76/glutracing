@@ -19,7 +19,7 @@
 #endif
 
 #include <stdlib.h>
-
+/// eta ekta demop je asolei commit hoy kina
 static int slices = 16;
 static int stacks = 16;
 
