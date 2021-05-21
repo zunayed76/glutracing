@@ -1,29 +1,45 @@
-/*
- * GLUT Shapes Demo
- *
- * Written by Nigel Stewart November 2003
- *
- * This program is test harness for the sphere, cone
- * and torus shapes in GLUT.
- *
- * Spinning wireframe and smooth shaded shapes are
- * displayed until the ESC or q key is pressed.  The
- * number of geometry stacks and slices can be adjusted
- * using the + and - keys.
- */
-#include <GL/gl.h>
-#ifdef __APPLE__
-#include <GLUT/glut.h>
-#else
+#include<GL/gl.h>
+#include <GL/glu.h>
 #include <GL/glut.h>
-#endif
-
 #include <stdlib.h>
-/// eta ekta demop je asolei commit hoy kina
-static int slices = 16;
-static int stacks = 16;
+#include <windows.h>
+#include<math.h>
+#include<bits/stdc++.h>
+#include "header.h"
+using namespace std;
 
-/* GLUT callback Handlers */
+
+double windowHeight=1920, windowWidth=1080;
+bool rott=false;
+float rotlimX = 0.0;
+float rotlimY = 0.0;
+float rotlimZ = 0.0;
+bool chkx = false;
+bool chky = false;
+bool chkz = false;
+
+bool chX = false;
+bool chY = false;
+bool chZ = false;
+
+bool scenerotX = false;
+bool scenerotY = false;
+bool scenerotZ = false;
+
+#define PI 3.141592654
+
+GLfloat eyeX = 0;      ///eye  4.5
+GLfloat eyeY = 0;     /// 1.9
+GLfloat eyeZ = -14;        ///-6
+
+GLfloat lookX = 0;      ///look at point
+GLfloat lookY = 0;
+GLfloat lookZ = 0;
+
+
+
+
+
 
 static void resize(int width, int height)
 {
@@ -38,140 +54,205 @@ static void resize(int width, int height)
     glLoadIdentity() ;
 }
 
+
+
+
+
+void scene()
+{
+    glPushMatrix();
+   // glScalef(100,100,100);
+    //test();
+    ok();
+
+    glPopMatrix();
+}
+
+
+
+
+
+
+
+
+
 static void display(void)
 {
-    const double t = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
-    const double a = t*90.0;
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glColor3d(1,0,0);
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    //glOrtho(0.0,2,0.0,2,0.0,1.0);
+    //glFrustum(-6,6,-6,6, 1, 30);
+    glFrustum(-3.4,3.4,-3,3,1.5,60);
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+    gluLookAt(eyeX,eyeY,eyeZ, lookX,lookY,lookZ, 0,1,0);
 
+    glViewport(0, 0, windowHeight, windowWidth);
     glPushMatrix();
-        glTranslated(-2.4,1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutSolidSphere(1,slices,stacks);
-    glPopMatrix();
+    //glRotatef(rotlimit,0,1,0);
+    //fan();
+    //fanUpy();
+    //chair();
+    //desk();
+    //cabinet();
+    glRotatef(rotlimX,1,0,0);
+    glRotatef(rotlimY,0,1,0);
+    glRotatef(rotlimZ,0,0,1);
+    //dias();
+    //course_title_draw();
+    //window();
+    scene();
 
-    glPushMatrix();
-        glTranslated(0,1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutSolidCone(1,1,slices,stacks);
     glPopMatrix();
-
-    glPushMatrix();
-        glTranslated(2.4,1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutSolidTorus(0.2,0.8,slices,stacks);
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslated(-2.4,-1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutWireSphere(1,slices,stacks);
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslated(0,-1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutWireCone(1,1,slices,stacks);
-    glPopMatrix();
-
-    glPushMatrix();
-        glTranslated(2.4,-1.2,-6);
-        glRotated(60,1,0,0);
-        glRotated(a,0,0,1);
-        glutWireTorus(0.2,0.8,slices,stacks);
-    glPopMatrix();
-
+    glFlush();
     glutSwapBuffers();
+
 }
 
 
-static void key(unsigned char key, int x, int y)
-{
-    switch (key)
-    {
-        case 27 :
-        case 'q':
-            exit(0);
-            break;
-
-        case '+':
-            slices++;
-            stacks++;
-            break;
-
-        case '-':
-            if (slices>3 && stacks>3)
-            {
-                slices--;
-                stacks--;
-            }
-            break;
-    }
-
-    glutPostRedisplay();
-}
 
 static void idle(void)
 {
     glutPostRedisplay();
 }
 
-const GLfloat light_ambient[]  = { 0.0f, 0.0f, 0.0f, 1.0f };
-const GLfloat light_diffuse[]  = { 1.0f, 1.0f, 1.0f, 1.0f };
-const GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-const GLfloat light_position[] = { 2.0f, 5.0f, 5.0f, 0.0f };
 
-const GLfloat mat_ambient[]    = { 0.7f, 0.7f, 0.7f, 1.0f };
-const GLfloat mat_diffuse[]    = { 0.8f, 0.8f, 0.8f, 1.0f };
-const GLfloat mat_specular[]   = { 1.0f, 1.0f, 1.0f, 1.0f };
-const GLfloat high_shininess[] = { 100.0f };
+void myKeyboardFunc( unsigned char key, int x, int y )
+{
+    switch ( key )
+    {
+    case 'x':
+        chkx = !chkx;
+        break;
+    case 'y':
+        chky = !chky;
+        break;
+    case 'z':
+        chkz = !chkz;
+        break;
+    case 'c':
+        chX = !chX;
+        break;
+    case 'u':
+        chY = !chY;
+        break;
+    case 'v':
+        chZ = !chZ;
+        break;
+    case 'e':
+        scenerotX = !scenerotX;
+        break;
+    case 'r':
+        scenerotY = !scenerotY;
+        break;
+    case 't':
+        scenerotZ = !scenerotZ;
+        break;
+    case 27:	// Escape key
+        exit(1);
+    }
+}
 
-/* Program entry point */
+void animate()
+{
+    if (scenerotX)
+    {
+        rotlimX+= 0.5;
 
-int main(int argc, char *argv[])
+        if(rotlimX > 360)
+            rotlimX = 0.0;
+
+    }
+    if (scenerotY)
+    {
+        rotlimY+= 0.5;
+
+        if(rotlimY > 360)
+            rotlimY = 0.0;
+
+    }
+    if (scenerotZ)
+    {
+        rotlimZ+= 0.5;
+
+        if(rotlimZ > 360)
+            rotlimZ = 0.0;
+
+    }
+    if (chkx)
+    {
+        eyeX = eyeX + 1;
+        lookX = lookX + 1;
+        chkx = false;
+        cout<<eyeX<<" "<<eyeY<<" "<<eyeZ<<endl;
+        cout<<lookX<<" "<<lookY<<" "<<lookZ<<endl;
+    }
+    if (chky)
+    {
+        eyeY = eyeY + 1;
+        lookY = lookY + 1;
+        chky = false;
+        cout<<eyeX<<" "<<eyeY<<" "<<eyeZ<<endl;
+        cout<<lookX<<" "<<lookY<<" "<<lookZ<<endl;
+    }
+    if (chkz)
+    {
+        eyeZ = eyeZ + 1;
+        lookZ = lookZ + 1;
+        chkz = false;
+        cout<<eyeX<<" "<<eyeY<<" "<<eyeZ<<endl;
+        cout<<lookX<<" "<<lookY<<" "<<lookZ<<endl;
+    }
+    if (chX)
+    {
+        eyeX = eyeX - 1;
+        lookX = lookX - 1;
+        chX = false;
+        cout<<eyeX<<" "<<eyeY<<" "<<eyeZ<<endl;
+        cout<<lookX<<" "<<lookY<<" "<<lookZ<<endl;
+    }
+    if (chY)
+    {
+        eyeY = eyeY - 1;
+        lookY = lookY - 1;
+        chY = false;
+        cout<<eyeX<<" "<<eyeY<<" "<<eyeZ<<endl;
+        cout<<lookX<<" "<<lookY<<" "<<lookZ<<endl;
+    }
+    if (chZ)
+    {
+        eyeZ = eyeZ - 1;
+        lookZ = lookZ - 1;
+        chZ = false;
+        cout<<eyeX<<" "<<eyeY<<" "<<eyeZ<<endl;
+        cout<<lookX<<" "<<lookY<<" "<<lookZ<<endl;
+    }
+
+    glutPostRedisplay();
+}
+
+int main (int argc, char **argv)
 {
     glutInit(&argc, argv);
-    glutInitWindowSize(640,480);
-    glutInitWindowPosition(10,10);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
-    glutCreateWindow("GLUT Shapes");
+    glutInitWindowPosition(0,0);
+    glutInitWindowSize(windowHeight, windowWidth);
+    glutCreateWindow("1607076-ClassRoom");
 
-    glutReshapeFunc(resize);
-    glutDisplayFunc(display);
-    glutKeyboardFunc(key);
-    glutIdleFunc(idle);
-
-    glClearColor(1,1,1,1);
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-
-    glEnable(GL_LIGHT0);
+    glShadeModel( GL_SMOOTH );
+    glEnable( GL_DEPTH_TEST );
     glEnable(GL_NORMALIZE);
-    glEnable(GL_COLOR_MATERIAL);
-    glEnable(GL_LIGHTING);
+    glEnable(GL_BLEND);
 
-    glLightfv(GL_LIGHT0, GL_AMBIENT,  light_ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE,  light_diffuse);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    glutKeyboardFunc(myKeyboardFunc);
+    glutDisplayFunc(display);
+    glutIdleFunc(animate);
 
-    glMaterialfv(GL_FRONT, GL_AMBIENT,   mat_ambient);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE,   mat_diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR,  mat_specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
 
     glutMainLoop();
 
-    return EXIT_SUCCESS;
+    return 0;
 }
