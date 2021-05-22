@@ -13,6 +13,7 @@ using namespace std;
 void ok()
 {
     ///uprer aboron
+    //glPushMatrix();
     glBegin(GL_TRIANGLE_STRIP);    /// quad er 4 ta point
     glColor3f(1,1,1);
     glVertex3f(2,0,-2);
@@ -23,6 +24,7 @@ void ok()
     glVertex3f(2,-0.5,4.5);
     glVertex3f(-2,-0.5,4.5);
     glEnd();
+    //glPopMatrix();
 
     glBegin(GL_QUADS);      ///samner dandi dan pash
     glVertex3f(-2,-0.5,4.5);
@@ -30,6 +32,10 @@ void ok()
     glVertex3f(-1.75,-2,6);
     glVertex3f(-1.75,-0.5,4.5);
     glEnd();
+
+
+
+
     glBegin(GL_QUADS);      ///samner dandi bam pash
     glVertex3f(2,-0.5,4.5);
     glVertex3f(2,-2,6);
@@ -38,7 +44,6 @@ void ok()
     glEnd();
 
     glBegin(GL_QUADS);      ///windshield
-    glColor3f(1,1,0);
     glVertex3f(1.75,-2,6);
     glVertex3f(1.75,-0.5,4.5);
     glVertex3f(-1.75,-0.5,4.5);
@@ -70,12 +75,17 @@ void ok()
     glVertex3f(2,-2,7.5);
     glEnd();
 
-    glBegin(GL_QUAD_STRIP);
-    glColor3f(1,0,1);
+    glBegin(GL_QUAD_STRIP);         ///body
+    //glColor3f(1,0,1);
     glVertex3f(-2,-4,7.5);
-    glVertex3f(-2,-4,6.5);
     glVertex3f(-2,-2,7.5);
-    glVertex3f(-2,-2,6.5);
+    glVertex3f(-2,-4,-2);
+    glVertex3f(-2,-2,-2);
+    glVertex3f(2,-4,-2);
+    glVertex3f(2,-2,-2);
+    glVertex3f(2,-4,7.5);
+    glVertex3f(2,-2,7.5);
+
     glEnd();
 
 
@@ -102,6 +112,107 @@ void ok()
     glTranslatef(0,-4,1.75);    /// z okkho = x okkho
     glutSolidTorus(0.2,1,30,30);
     glPopMatrix();
+
+
+    glBegin(GL_QUADS);         ///janalar aboron piche upre
+
+
+    glVertex3f(1.75,0,-2);
+    glVertex3f(1.75,-0.25,-2);
+    glVertex3f(-1.75,-0.25,-2);
+    glVertex3f(-1.75,0,-2);
+
+
+    glEnd();
+
+    glBegin(GL_QUAD_STRIP);    /// jANAR ABORON SAMNE PASHE UPRE
+    glColor3f(0,0,1);
+    glVertex3f(-2,-0.25,4);
+    glVertex3f(-2,0,4);
+    glVertex3f(2,-0.25,4);
+    glVertex3f(2,0,4);
+    glVertex3f(2,-0.25,-2);
+    glVertex3f(2,0,-2);
+    glEnd();
+    glBegin(GL_QUADS);     ///same part
+    glVertex3f(-2,0,-2);
+    glVertex3f(-2,-0.25,-2);
+    glVertex3f(-2,-0.25,4);
+    glVertex3f(-2,0,4);
+    glEnd();
+
+
+
+    glBegin(GL_QUADS);      ///samner dandi dan pash JANALAR ABORON
+    //glColor3f(1,0,1);
+    glVertex3f(-2,0,4);
+    glVertex3f(-2,-0.25,4);
+    glVertex3f(-2,-2,5.75);
+    glVertex3f(-2,-2,6);
+    glEnd();
+    glBegin(GL_QUADS);      ///samner dandi bam pash JANALAR ABORON
+    //glColor3f(1,0,1);
+    glVertex3f(2,0,4);
+    glVertex3f(2,-0.25,4);
+    glVertex3f(2,-2,5.75);
+    glVertex3f(2,-2,6);
+    glEnd();
+
+
+    glBegin(GL_QUADS);      ///majher dandi bam pash
+    //glColor3f(1,0,1);
+    glVertex3f(2,-0.25,1);
+    glVertex3f(2,-2,1);
+    glVertex3f(2,-2,2);
+    glVertex3f(2,-0.25,2);
+    glEnd();
+    glBegin(GL_QUADS);      ///majher dandi dan pash
+    //glColor3f(1,0,1);
+    glVertex3f(-2,-0.25,1);
+    glVertex3f(-2,-2,1);
+    glVertex3f(-2,-2,2);
+    glVertex3f(-2,-0.25,2);
+    glEnd();
+
+
+    glBegin(GL_QUADS);      ///dan pash samner janla
+    glColor3f(0,1,0);
+    glVertex3f(-2,-0.25,4);
+    glVertex3f(-2,-2,5.75);
+    glVertex3f(-2,-2,2);
+    glVertex3f(-2,-0.25,2);
+    glEnd();
+    glBegin(GL_QUADS);      ///bam pash samner janla
+    glVertex3f(2,-0.25,4);
+    glVertex3f(2,-2,5.75);
+    glVertex3f(2,-2,2);
+    glVertex3f(2,-0.25,2);
+    glEnd();
+    glBegin(GL_QUADS);      ///dan pash pichoner janla
+    glVertex3f(-2,-0.25,-2);
+    glVertex3f(-2,-2,-2);
+    glVertex3f(-2,-2,1);
+    glVertex3f(-2,-0.25,1);
+    glEnd();
+    glBegin(GL_QUADS);      ///bam pash pichoner janla
+    glVertex3f(2,-0.25,-2);
+    glVertex3f(2,-2,-2);
+    glVertex3f(2,-2,1);
+    glVertex3f(2,-0.25,1);
+    glEnd();
+
+
+
+    glBegin(GL_QUADS);      ///pichoner  janla
+    glVertex3f(1.75,0,-2);
+    glVertex3f(1.75,-2,-2);
+    glVertex3f(-1.75,-2,-2);
+    glVertex3f(-1.75,0,-2);
+    glEnd();
+
+
+
+
 
 
 }
