@@ -6,16 +6,27 @@
 #include <windows.h>
 #include<math.h>
 #include<bits/stdc++.h>
-//#include "header.h"
+#include "header.h"
 using namespace std;
-
 
 void ok()
 {
+    GLfloat mat_ambient[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_shininess[] = {60};
+
+    glMaterialfv( GL_FRONT, GL_AMBIENT, mat_ambient);
+    glMaterialfv( GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv( GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv( GL_FRONT, GL_SHININESS, mat_shininess);
+
     ///uprer aboron
-    //glPushMatrix();
-    glBegin(GL_TRIANGLE_STRIP);    /// quad er 4 ta point
-    glColor3f(1,1,1);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,IDe[1]);
+    glPushMatrix();
+    glBegin(GL_QUAD_STRIP);    /// quad er 4 ta point
+   // glColor3f(1,1,1);
     glVertex3f(2,0,-2);
     glVertex3f(-2,0,-2);
     glVertex3f(2,0,4);
@@ -33,21 +44,11 @@ void ok()
     glVertex3f(-1.75,-0.5,4.5);
     glEnd();
 
-
-
-
     glBegin(GL_QUADS);      ///samner dandi bam pash
     glVertex3f(2,-0.5,4.5);
     glVertex3f(2,-2,6);
     glVertex3f(1.75,-2,6);
     glVertex3f(1.75,-0.5,4.5);
-    glEnd();
-
-    glBegin(GL_QUADS);      ///windshield
-    glVertex3f(1.75,-2,6);
-    glVertex3f(1.75,-0.5,4.5);
-    glVertex3f(-1.75,-0.5,4.5);
-    glVertex3f(-1.75,-2,6);
     glEnd();
     glBegin(GL_QUADS);      ///pichoner dandi bam pash
     glVertex3f(2,0,-2);
@@ -67,6 +68,7 @@ void ok()
     glVertex3f(2,-2,7.5);
     glVertex3f(2,-2,6);
     glEnd();
+
     glBegin(GL_QUADS);      ///headlight er jayga  eitar moddhe grill er texture majh dia deoar try korbo
 
     glVertex3f(-2,-2,7.5);
@@ -74,7 +76,6 @@ void ok()
     glVertex3f(2,-4,7.5);
     glVertex3f(2,-2,7.5);
     glEnd();
-
     glBegin(GL_QUAD_STRIP);         ///body
     //glColor3f(1,0,1);
     glVertex3f(-2,-4,7.5);
@@ -85,48 +86,8 @@ void ok()
     glVertex3f(2,-2,-2);
     glVertex3f(2,-4,7.5);
     glVertex3f(2,-2,7.5);
-
     glEnd();
-
-
-    glPushMatrix();        /// chaka
-    glRotatef(90,0,1,0);
-    glTranslatef(-5,-4,-1.75);    /// z okkho = x okkho
-    glutSolidTorus(0.2,1,30,30);
-    glPopMatrix();
-
-
-    glPushMatrix();   ///chaka2
-    glRotatef(90,0,1,0);
-    glTranslatef(-5,-4,1.75);    /// z okkho = x okkho
-    glutSolidTorus(0.2,1,30,30);
-    glPopMatrix();
-
-    glPushMatrix();   ///chaka3
-    glRotatef(90,0,1,0);
-    glTranslatef(0,-4,-1.75);    /// z okkho = x okkho
-    glutSolidTorus(0.2,1,30,30);
-    glPopMatrix();
-    glPushMatrix();   ///chaka4
-    glRotatef(90,0,1,0);
-    glTranslatef(0,-4,1.75);    /// z okkho = x okkho
-    glutSolidTorus(0.2,1,30,30);
-    glPopMatrix();
-
-
-    glBegin(GL_QUADS);         ///janalar aboron piche upre
-
-
-    glVertex3f(1.75,0,-2);
-    glVertex3f(1.75,-0.25,-2);
-    glVertex3f(-1.75,-0.25,-2);
-    glVertex3f(-1.75,0,-2);
-
-
-    glEnd();
-
     glBegin(GL_QUAD_STRIP);    /// jANAR ABORON SAMNE PASHE UPRE
-    glColor3f(0,0,1);
     glVertex3f(-2,-0.25,4);
     glVertex3f(-2,0,4);
     glVertex3f(2,-0.25,4);
@@ -140,9 +101,6 @@ void ok()
     glVertex3f(-2,-0.25,4);
     glVertex3f(-2,0,4);
     glEnd();
-
-
-
     glBegin(GL_QUADS);      ///samner dandi dan pash JANALAR ABORON
     //glColor3f(1,0,1);
     glVertex3f(-2,0,4);
@@ -157,8 +115,6 @@ void ok()
     glVertex3f(2,-2,5.75);
     glVertex3f(2,-2,6);
     glEnd();
-
-
     glBegin(GL_QUADS);      ///majher dandi bam pash
     //glColor3f(1,0,1);
     glVertex3f(2,-0.25,1);
@@ -167,16 +123,42 @@ void ok()
     glVertex3f(2,-0.25,2);
     glEnd();
     glBegin(GL_QUADS);      ///majher dandi dan pash
-    //glColor3f(1,0,1);
     glVertex3f(-2,-0.25,1);
     glVertex3f(-2,-2,1);
     glVertex3f(-2,-2,2);
     glVertex3f(-2,-0.25,2);
     glEnd();
+    glBegin(GL_QUADS);         ///janalar aboron piche upre
+
+    glVertex3f(1.75,0,-2);
+    glVertex3f(1.75,-0.25,-2);
+    glVertex3f(-1.75,-0.25,-2);
+    glVertex3f(-1.75,0,-2);
+
+    glEnd();
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
+
+ ///prothom texture sesh
 
 
+
+
+
+
+
+
+
+  //  glPopMatrix();
+//    glDisable(GL_TEXTURE_2D);
+
+    glBegin(GL_QUADS);      ///windshield
+    glVertex3f(1.75,-2,6);
+    glVertex3f(1.75,-0.5,4.5);
+    glVertex3f(-1.75,-0.5,4.5);
+    glVertex3f(-1.75,-2,6);
+    glEnd();
     glBegin(GL_QUADS);      ///dan pash samner janla
-    glColor3f(0,1,0);
     glVertex3f(-2,-0.25,4);
     glVertex3f(-2,-2,5.75);
     glVertex3f(-2,-2,2);
@@ -200,9 +182,6 @@ void ok()
     glVertex3f(2,-2,1);
     glVertex3f(2,-0.25,1);
     glEnd();
-
-
-
     glBegin(GL_QUADS);      ///pichoner  janla
     glVertex3f(1.75,0,-2);
     glVertex3f(1.75,-2,-2);
@@ -215,6 +194,59 @@ void ok()
 
 
 
+
+
+
+
+
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,IDe[2]);
+    glPushMatrix();        /// chaka
+    glRotatef(90,0,1,0);
+    glTranslatef(-5,-4,-1.75);    /// z okkho = x okkho
+    glutSolidTorus(0.2,1,30,30);
+    glPopMatrix();
+
+
+    glPushMatrix();   ///chaka2
+    glRotatef(90,0,1,0);
+    glTranslatef(-5,-4,1.75);    /// z okkho = x okkho
+    glutSolidTorus(0.2,1,30,30);
+    glPopMatrix();
+
+    glPushMatrix();   ///chaka3
+    glRotatef(90,0,1,0);
+    glTranslatef(0,-4,-1.75);    /// z okkho = x okkho
+    glutSolidTorus(0.2,1,30,30);
+    glPopMatrix();
+    glPushMatrix();   ///chaka4
+    glRotatef(90,0,1,0);
+    glTranslatef(0,-4,1.75);    /// z okkho = x okkho
+    glutSolidTorus(0.2,1,30,30);
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
+
+
+
+    ///license plate
+
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,IDe[3]);
+    glPushMatrix();
+    glBegin(GL_QUADS);      ///pichoner  janla
+    glVertex3f(1,-2.5,-2.1);  glTexCoord2f(0,0);
+    glVertex3f(1,-3.5,-2.1);  glTexCoord2f(1,0);
+    glVertex3f(-1,-3.5,-2.1); glTexCoord2f(1,1);
+    glVertex3f(-1,-2.5,-2.1); glTexCoord2f(0,1);
+    glEnd();
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
+
+
+
+
+
+
 }
 
 
@@ -222,54 +254,68 @@ void ok()
 
 
 
-
-
-
-/*void cube(float fr = 1.0, float fg = 0.0, float fb = 0.0,float lr = 0.0, float lg = 1.0, float lb = 0.0,float tr = 0.0, float tg = 0.0, float tb = 1.0 )
+void cube()
 {
+/*
+
+    glColor3f(1,1,1);
+    GLfloat mat_ambient[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_shininess[] = {60};
+
+    glMaterialfv( GL_FRONT, GL_AMBIENT, mat_ambient);
+    glMaterialfv( GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv( GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv( GL_FRONT, GL_SHININESS, mat_shininess);
+*/
+   // glTexCoord2f(1,1);
+   //glTexCoord2f(1,0);
+   // glTexCoord2f(0,0);
+    //glTexCoord2f(0,1);
 
     glBegin(GL_QUADS);
     /// FRONT
-    glColor3f(fr,fg,fb);
-    glVertex3f(-0.5f, -0.5f, 0.5f);
-    glVertex3f( 0.5f, -0.5f, 0.5f);
-    glVertex3f( 0.5f, 0.5f, 0.5f);
-    glVertex3f(-0.5f, 0.5f, 0.5f);
+    //glColor3f(fr,fg,fb);
+    glVertex3f(-0.5f, -0.5f, 0.5f); glTexCoord2f(1,1);
+    glVertex3f( 0.5f, -0.5f, 0.5f); glTexCoord2f(1,0);
+    glVertex3f( 0.5f, 0.5f, 0.5f);  glTexCoord2f(0,0);
+    glVertex3f(-0.5f, 0.5f, 0.5f);  glTexCoord2f(0,1);
 
     // BACK
-    glColor3f(fr,fg,fb);
+   // glColor3f(fr,fg,fb);
     glVertex3f(-0.5f, -0.5f, -0.5f);
     glVertex3f(-0.5f, 0.5f, -0.5f);
     glVertex3f( 0.5f, 0.5f, -0.5f);
     glVertex3f( 0.5f, -0.5f, -0.5f);
 
     /// LEFT
-    glColor3f(lr,lg,lb);
+    //glColor3f(lr,lg,lb);
     glVertex3f(-0.5f, -0.5f, 0.5f);
     glVertex3f(-0.5f, 0.5f, 0.5f);
     glVertex3f(-0.5f, 0.5f, -0.5f);
     glVertex3f(-0.5f, -0.5f, -0.5f);
 
     // RIGHT
-    glColor3f(lr,lg,lb);
+    //glColor3f(lr,lg,lb);
     glVertex3f( 0.5f, -0.5f, -0.5f);
     glVertex3f( 0.5f, 0.5f, -0.5f);
     glVertex3f( 0.5f, 0.5f, 0.5f);
     glVertex3f( 0.5f, -0.5f, 0.5f);
 
     /// TOP
-    glColor3f(tr,tg,tb);
+    //glColor3f(tr,tg,tb);
     glVertex3f(-0.5f, 0.5f, 0.5f);
     glVertex3f( 0.5f, 0.5f, 0.5f);
     glVertex3f( 0.5f, 0.5f, -0.5f);
     glVertex3f(-0.5f, 0.5f, -0.5f);
 
     // BOTTOM
-    glColor3f(tr,tg,tb);
+    //glColor3f(tr,tg,tb);
     glVertex3f(-0.5f, -0.5f, 0.5f);
     glVertex3f(-0.5f, -0.5f, -0.5f);
     glVertex3f( 0.5f, -0.5f, -0.5f);
     glVertex3f( 0.5f, -0.5f, 0.5f);
     glEnd();
 }
-*/
+
