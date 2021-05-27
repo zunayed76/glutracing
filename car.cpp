@@ -204,25 +204,25 @@ void ok()
     glPushMatrix();        /// chaka
     glRotatef(90,0,1,0);
     glTranslatef(-5,-4,-1.75);    /// z okkho = x okkho
-    glutSolidTorus(0.2,1,30,30);
+    glutSolidTorus(0.4,1,30,30);
     glPopMatrix();
 
 
     glPushMatrix();   ///chaka2
     glRotatef(90,0,1,0);
     glTranslatef(-5,-4,1.75);    /// z okkho = x okkho
-    glutSolidTorus(0.2,1,30,30);
+    glutSolidTorus(0.4,1,30,30);
     glPopMatrix();
 
     glPushMatrix();   ///chaka3
     glRotatef(90,0,1,0);
     glTranslatef(0,-4,-1.75);    /// z okkho = x okkho
-    glutSolidTorus(0.2,1,30,30);
+    glutSolidTorus(0.4,1,30,30);
     glPopMatrix();
     glPushMatrix();   ///chaka4
     glRotatef(90,0,1,0);
     glTranslatef(0,-4,1.75);    /// z okkho = x okkho
-    glutSolidTorus(0.2,1,30,30);
+    glutSolidTorus(0.4,1,30,30);
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
 
@@ -277,10 +277,10 @@ void cube()
     glBegin(GL_QUADS);
     /// FRONT
     //glColor3f(fr,fg,fb);
-    glVertex3f(-0.5f, -0.5f, 0.5f); glTexCoord2f(1,1);
-    glVertex3f( 0.5f, -0.5f, 0.5f); glTexCoord2f(1,0);
-    glVertex3f( 0.5f, 0.5f, 0.5f);  glTexCoord2f(0,0);
-    glVertex3f(-0.5f, 0.5f, 0.5f);  glTexCoord2f(0,1);
+    glVertex3f(-0.5f, -0.5f, 0.5f); //glTexCoord2f(1,1);
+    glVertex3f( 0.5f, -0.5f, 0.5f); //glTexCoord2f(1,0);
+    glVertex3f( 0.5f, 0.5f, 0.5f);  //glTexCoord2f(0,0);
+    glVertex3f(-0.5f, 0.5f, 0.5f);  //glTexCoord2f(0,1);
 
     // BACK
    // glColor3f(fr,fg,fb);
