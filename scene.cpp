@@ -340,7 +340,78 @@ void basescene()
 
 
 
+void building()
+{
 
+
+    glColor3f(1,1,1);
+    GLfloat mat_ambient[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_shininess[] = {60};
+
+    glMaterialfv( GL_FRONT, GL_AMBIENT, mat_ambient);
+    glMaterialfv( GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv( GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv( GL_FRONT, GL_SHININESS, mat_shininess);
+
+   // glTexCoord2f(1,1);
+   //glTexCoord2f(1,0);
+   // glTexCoord2f(0,0);
+    //glTexCoord2f(0,1);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,IDe[2]);
+    glPushMatrix();
+
+    glBegin(GL_QUADS);
+    /// FRONT
+    //glColor3f(fr,fg,fb);
+    glVertex3f(-0.5f, -0.5f, 0.5f); glTexCoord2f(1,1);
+    glVertex3f( 0.5f, -0.5f, 0.5f); glTexCoord2f(1,0);
+    glVertex3f( 0.5f, 0.5f, 0.5f);  glTexCoord2f(0,0);
+    glVertex3f(-0.5f, 0.5f, 0.5f);  glTexCoord2f(0,1);
+
+    // BACK
+   // glColor3f(fr,fg,fb);
+    glVertex3f(-0.5f, -0.5f, -0.5f); glTexCoord2f(1,1);
+    glVertex3f(-0.5f, 0.5f, -0.5f); glTexCoord2f(1,0);
+    glVertex3f( 0.5f, 0.5f, -0.5f); glTexCoord2f(0,0);
+    glVertex3f( 0.5f, -0.5f, -0.5f); glTexCoord2f(0,1);
+
+    /// LEFT
+    //glColor3f(lr,lg,lb);
+    glVertex3f(-0.5f, -0.5f, 0.5f);        glTexCoord2f(1,1);
+    glVertex3f(-0.5f, 0.5f, 0.5f); glTexCoord2f(1,0);
+    glVertex3f(-0.5f, 0.5f, -0.5f); glTexCoord2f(0,0);
+    glVertex3f(-0.5f, -0.5f, -0.5f);glTexCoord2f(0,1);
+
+    // RIGHT
+    //glColor3f(lr,lg,lb);
+    glVertex3f( 0.5f, -0.5f, -0.5f);  glTexCoord2f(1,1);
+    glVertex3f( 0.5f, 0.5f, -0.5f);   glTexCoord2f(1,0);
+    glVertex3f( 0.5f, 0.5f, 0.5f);glTexCoord2f(0,0);
+    glVertex3f( 0.5f, -0.5f, 0.5f); glTexCoord2f(0 ,1);
+
+    /// TOP
+    //glColor3f(tr,tg,tb);
+    glVertex3f(-0.5f, 0.5f, 0.5f);
+    glVertex3f( 0.5f, 0.5f, 0.5f);
+    glVertex3f( 0.5f, 0.5f, -0.5f);
+    glVertex3f(-0.5f, 0.5f, -0.5f);
+
+    // BOTTOM
+    //glColor3f(tr,tg,tb);
+    glVertex3f(-0.5f, -0.5f, 0.5f);
+    glVertex3f(-0.5f, -0.5f, -0.5f);
+    glVertex3f( 0.5f, -0.5f, -0.5f);
+    glVertex3f( 0.5f, -0.5f, 0.5f);
+    glEnd();
+
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
+
+
+}
 
 
 

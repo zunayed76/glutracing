@@ -13,21 +13,22 @@ using namespace std;
 double windowHeight=1920, windowWidth=1080;
 bool rott=false;
 float rotlimX = 0.0;
-float rotlimBam = 0.0;
-float rotlimDan = 360.0;
+float rotlim = 0.0;      ///garir rotation
+
 
 
 
 float rotlimZ = 0.0;
 bool chkx = false;
 bool chky = false;
-
-
-
-
-
 bool chkz = false;
 bool chkd = false;
+
+
+bool backward = false;     //backward e jabe
+bool forWard = false;       //forward e jabe
+bool scenerotBam = false;
+bool scenerotDan = false;
 
 
 
@@ -42,8 +43,7 @@ bool chY = false;
 bool chZ = false;
 
 bool scenerotX = false;
-bool scenerotBam = false;
-bool scenerotDan = false;
+
 bool scenerotZ = false;
 
 #define PI 3.141592654
@@ -59,7 +59,10 @@ GLfloat lookZ = 0.2;
 unsigned int IDe[100];
 
 
-bool xnakiz = false;   ///false hole z
+bool zas = true;
+bool zap = false;
+bool xas = false;   //false
+bool xap = false;  //true
 
 
 
@@ -103,14 +106,13 @@ void scene()
 {
     //glEnable(GL_TEXTURE_2D);
     //glBindTexture(GL_TEXTURE_2D,IDe[2]);
+
+
+
+
+
     glPushMatrix();
-    //glScalef(100,100,100);
-    //test();
-    //glScalef(3,3,3);
-    //cube();
-    //ok();
-    //glRotatef(rotlimY,0,1,0);
-    //glScalef(2,0,2);
+
     basescene();
 
     glPopMatrix();
@@ -121,9 +123,8 @@ void scene()
 
     glTranslatef(lookX,lookY-0.4,lookZ );        ///lookX,lookY,lookZ        -0.5,-1.5,0.2
     //glTranslatef(-0.5,-1.5,0.2);
-    glRotatef(rotlimBam,0,1,0);
-    glRotatef(rotlimDan,0,1,0);
-    glScalef(0.1,0.1,0.08);
+    glRotatef(rotlim,0,1,0);
+    glScalef(0.08,0.1,0.06);
     ok();
 
 
@@ -147,6 +148,61 @@ void scene()
     glRotatef(45,0,1,0);
     kuetlogo();
     glPopMatrix();
+
+
+
+
+
+    glPushMatrix();
+    glScalef(1.5,5,0.75);
+    glTranslatef(-1,0,10);
+    building();
+    glPopMatrix();
+    glPushMatrix();
+    glScalef(1.5,5,0.75);
+    glTranslatef(-1,0,18);
+    building();
+    glPopMatrix();
+    glPushMatrix();
+    glScalef(1.5,5,0.75);
+    glTranslatef(-1,0,22);
+    building();
+    glPopMatrix();
+    glPushMatrix();
+    glScalef(1.5,5,0.75);
+    glTranslatef(-1,0,26);
+    building();
+    glPopMatrix();
+    glPushMatrix();
+    glScalef(1.5,5,0.75);
+    glTranslatef(-1,0,30);
+    building();
+    glPopMatrix();
+
+
+
+
+    glPushMatrix();
+    glScalef(1.5,5,0.75);
+    glTranslatef(-9,0,18);
+    building();
+    glPopMatrix();
+    glPushMatrix();
+    glScalef(1.5,5,0.75);
+    glTranslatef(-9,0,20);
+    building();
+    glPopMatrix();
+    glPushMatrix();
+    glScalef(1.5,5,0.75);
+    glTranslatef(-9,0,22);
+    building();
+    glPopMatrix();
+    glPushMatrix();
+    glScalef(1.5,5,0.75);
+    glTranslatef(-9,0,24);
+    building();
+    glPopMatrix();
+
 
 
 
@@ -180,8 +236,8 @@ void display(void)
     glPushMatrix();
 
     //glRotatef(rotlimX,1,0,0);
-   // glRotatef(rotlimY,0,1,0);
-   // glRotatef(rotlimZ,0,0,1);
+    // glRotatef(rotlimY,0,1,0);
+    // glRotatef(rotlimZ,0,0,1);
 
 
     scene();
@@ -213,7 +269,7 @@ void myKeyboardFunc( unsigned char key, int x, int y )
         chky = !chky;
         break;
     case 'w':                         ///samne jabe
-        chkz = !chkz;
+        forWard = !forWard;
         break;
     case 'd':                         ///dan e jabe
         scenerotDan = !scenerotDan;
@@ -221,6 +277,21 @@ void myKeyboardFunc( unsigned char key, int x, int y )
     case 'a':                     ///bam e jabe
         scenerotBam = !scenerotBam;
         break;
+    case 's':
+        backward =! backward;
+        break;
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -245,8 +316,216 @@ void myKeyboardFunc( unsigned char key, int x, int y )
     }
 }
 
+void SpecialInput(int key, int x, int y)        ///don't touch z
+{
+    switch(key)
+    {
+    case GLUT_KEY_UP:
+
+        rotlim = 0;
+
+        if(zap)
+        {
+            eyeZ = eyeZ - 0.8;
+        }
+        else if(xap)
+        {
+            eyeZ = eyeZ - 0.4;
+            eyeX = eyeX - 0.4;
+        }
+        else if(xas)
+        {
+            eyeZ = eyeZ - 0.4;
+            eyeX = eyeX + 0.4;
+        }
+
+        zas = true;
+        zap = false;
+        xas = false;   //false
+        xap = false;
+        break;
+
+    case GLUT_KEY_DOWN:
+
+
+
+        rotlim = 180;
+        if(zas)
+        {
+            eyeZ = eyeZ + 0.8;
+        }
+        else if(xap)
+        {
+            eyeZ = eyeZ + 0.4;
+            eyeX = eyeX - 0.4;
+        }
+        else if(xas)
+        {
+            eyeZ = eyeZ + 0.4;
+            eyeX = eyeX + 0.4;
+        }
+
+        zas = false;
+        zap = true;
+        xas = false;   //false
+        xap = false;
+        break;
+    case GLUT_KEY_LEFT:
+
+
+
+        rotlim = 90;
+
+        if(xap)
+        {
+            eyeX = eyeX - 0.8;
+        }
+        else if(zas)
+        {
+            eyeZ = eyeZ + 0.4;
+            eyeX = eyeX - 0.4;
+        }
+        else if(zap)
+        {
+            eyeZ = eyeZ - 0.4;
+            eyeX = eyeX - 0.4;
+        }
+
+        zas = false;
+        zap = false;
+        xas = true;   //false
+        xap = false;
+        break;
+    case GLUT_KEY_RIGHT:
+
+
+
+
+        rotlim = 270;
+        if(zas)
+        {
+            eyeZ = eyeZ + 0.4;
+            eyeX = eyeX + 0.4;
+        }
+        else if(zap)
+        {
+            eyeZ = eyeZ - 0.4;
+            eyeX = eyeX + 0.4;
+        }
+        else if(xas)
+        {
+            eyeX = eyeX + 0.8;
+        }
+
+        zas = false;
+        zap = false;
+        xas = false;   //false
+        xap = true;
+        break;
+
+    glutPostRedisplay();
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void animate()
 {
+
+    if (forWard)                      /// samne jabe
+    {
+        if(zas)
+        {
+
+            eyeZ = eyeZ + 0.1;
+            lookZ = lookZ + 0.1;
+            chkz = false;
+        }
+        else if(zap)
+        {
+
+            eyeZ = eyeZ - 0.1;
+            lookZ = lookZ - 0.1;
+            chkz = false;
+
+        }
+        else if(xas)
+        {
+
+            eyeX = eyeX + 0.1;
+            lookX = lookX + 0.1;
+            chkz = false;
+        }
+        else if(xap)
+        {
+
+            eyeX = eyeX - 0.1;
+            lookX = lookX - 0.1;
+            chkz = false;
+        }
+
+        forWard = false;
+    }
+    if( backward)
+    {
+        if(zas)
+        {
+
+            eyeZ = eyeZ - 0.1;
+            lookZ = lookZ - 0.1;
+            chkz = false;
+            //rotlimBam = 0.0;
+            // rotlimDan = 0.0;
+            // cout<<"eye"<<eyeX<<" "<<eyeY<<" "<<eyeZ<<endl;
+            // cout<<"look"<<lookX<<" "<<lookY<<" "<<lookZ<<endl<<endl;;
+        }
+        else if(zap)
+        {
+
+            eyeZ = eyeZ + 0.1;
+            lookZ = lookZ + 0.1;
+            chkz = false;
+
+            // cout<<"eye"<<eyeX<<" "<<eyeY<<" "<<eyeZ<<endl;
+            //cout<<"look"<<lookX<<" "<<lookY<<" "<<lookZ<<endl<<endl;;
+        }
+        else if(xas)
+        {
+
+            eyeX = eyeX - 0.1;
+            lookX = lookX - 0.1;
+            chkz = false;
+
+            // cout<<"eye"<<eyeX<<" "<<eyeY<<" "<<eyeZ<<endl;
+            //cout<<"look"<<lookX<<" "<<lookY<<" "<<lookZ<<endl<<endl;;
+        }
+        else if(xap)
+        {
+
+            eyeX = eyeX + 0.1;
+            lookX = lookX + 0.1;
+            chkz = false;
+        }
+
+
+        backward = false;
+    }
+
+
     if (scenerotX)
     {
         rotlimX+= 0.5;
@@ -257,44 +536,106 @@ void animate()
     }
     if (scenerotBam)
     {
-        rotlimBam+= 4;
+        if(zas)
+        {
+            eyeZ = eyeZ + 0.02;
+            lookZ = lookZ + 0.02;
+            eyeX = eyeX + 0.01;
+            lookX = lookX + 0.01;
 
-        if(rotlimBam > 360)
-            rotlimBam = 0.0;
-        eyeX = eyeX + 0.02;
-        lookX = lookX + 0.02;
-        eyeZ = eyeZ + 0.02;
-        lookZ = lookZ + 0.02;
-        scenerotBam = FALSE;
+        }
+        else if(zap)
+        {
+            eyeZ = eyeZ - 0.02;
+            lookZ = lookZ - 0.02;
+            eyeX = eyeX - 0.01;
+            lookX = lookX - 0.01;
+        }
+        else if(xas)
+        {
+
+           eyeZ = eyeZ - 0.01;
+            lookZ = lookZ - 0.01;
+            eyeX = eyeX + 0.02;
+            lookX = lookX + 0.02;
+        }
+        else if(xap)
+        {
+
+            eyeZ = eyeZ + 0.01;
+            lookZ = lookZ + 0.01;
+            eyeX = eyeX - 0.02;
+            lookX = lookX - 0.02;
+        }
+
+
+
+
+
+        //lookX = lookX + 0.02;
+        //eyeZ = eyeZ + 0.015;
+        //lookZ = lookZ + 0.015;
+        cout<<"rotlimitdbam"<<rotlim<<endl;
+        scenerotBam = false;
 
 
 
     }
+
+
     if (scenerotDan)
     {
-        rotlimDan-= 2;
 
-        if(rotlimDan == 0)
-            rotlimDan = 360;
-        eyeX = eyeX + 0.04;
-        lookX = lookX + 0.04;
-        eyeZ = eyeZ - 0.02;
-        lookZ = lookZ - 0.02;
-        scenerotDan = FALSE;
+        if(zas)
+        {
+            eyeZ = eyeZ + 0.01;
+            lookZ = lookZ + 0.01;
+            eyeX = eyeX - 0.015;
+            lookX = lookX - 0.015;
 
+        }
+        else if(zap)
+        {
+            eyeZ = eyeZ - 0.02;
+            lookZ = lookZ - 0.02;
+            eyeX = eyeX + 0.01;
+            lookX = lookX + 0.01;
+        }
+        /*
+        */
+        else if(xas)
+        {
+
+           eyeZ = eyeZ + 0.01;
+            lookZ = lookZ + 0.01;
+            eyeX = eyeX + 0.02;
+            lookX = lookX + 0.02;
+        }
+
+        else if(xap)
+        {
+            eyeZ = eyeZ - 0.01;
+            lookZ = lookZ - 0.01;
+            eyeX = eyeX - 0.02;
+            lookX = lookX - 0.02;
+        }
+
+        //eyeZ = eyeZ + 0.015;
+        cout<<"rotlimitdan"<<rotlim<<endl;
+        // lookZ = lookZ - 0.02;
+        scenerotDan = false;
 
 
     }
 
 
-    if (scenerotZ)
-    {
-        rotlimZ+= 0.5;
 
-        if(rotlimZ > 360)
-            rotlimZ = 0.0;
 
-    }
+
+
+
+
+
     if (chkx)
     {
         eyeX = eyeX + 0.1;
@@ -316,18 +657,7 @@ void animate()
 
 
 
-    if (chkz)                      /// samne jabe
-    {
 
-
-        eyeZ = eyeZ + 0.1;
-        lookZ = lookZ + 0.1;
-        chkz = false;
-        rotlimBam = 0.0;
-        rotlimDan = 360.0;
-        cout<<"eye"<<eyeX<<" "<<eyeY<<" "<<eyeZ<<endl;
-        cout<<"look"<<lookX<<" "<<lookY<<" "<<lookZ<<endl<<endl;;
-    }
     if (chX)
     {
         eyeX = eyeX - 0.1;
@@ -398,6 +728,7 @@ int main (int argc, char **argv)
 
 
     glutKeyboardFunc(myKeyboardFunc);
+    glutSpecialFunc(SpecialInput);
     glutDisplayFunc(display);
     glutIdleFunc(animate);
     glClearColor(0,0,0,1);

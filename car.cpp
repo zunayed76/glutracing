@@ -216,12 +216,12 @@ void ok()
 
     glPushMatrix();   ///chaka3
     glRotatef(90,0,1,0);
-    glTranslatef(0,-4,-1.75);    /// z okkho = x okkho
+    glTranslatef(0.6,-4,-1.65);    /// z okkho = x okkho
     glutSolidTorus(0.4,1,30,30);
     glPopMatrix();
     glPushMatrix();   ///chaka4
     glRotatef(90,0,1,0);
-    glTranslatef(0,-4,1.75);    /// z okkho = x okkho
+    glTranslatef(0.6,-4,1.65);    /// z okkho = x okkho
     glutSolidTorus(0.4,1,30,30);
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);

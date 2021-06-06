@@ -16,6 +16,6 @@ void cube();
 void kuetgate();
 void kuetlogo();
 void basescene();
-
+void building();
 
 #endif
