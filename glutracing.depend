@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1622229756 source:c:\users\zunayed76\desktop\glutracing\car.cpp
+1623430951 source:c:\users\zunayed76\desktop\glutracing\car.cpp
 	<GL/gl.h>
 	<GL/glu.h>
 	<GL/glut.h>
@@ -21,7 +21,7 @@
 	<_mingw.h>
 	<stddef.h>
 
-1622964662 source:c:\users\zunayed76\desktop\glutracing\main.cpp
+1623535250 source:c:\users\zunayed76\desktop\glutracing\main.cpp
 	<GL/gl.h>
 	<GL/glu.h>
 	<GL/glut.h>
@@ -248,9 +248,9 @@
 1341006774 c:\program files (x86)\codeblocks\mingw\include\math.h
 	<_mingw.h>
 
-1622085966 c:\users\zunayed76\desktop\glutracing\header.h
+1623535606 c:\users\zunayed76\desktop\glutracing\header.h
 
-1622086214 source:c:\users\zunayed76\desktop\glutracing\scene.cpp
+1623535606 source:c:\users\zunayed76\desktop\glutracing\scene.cpp
 	<GL/gl.h>
 	<GL/glu.h>
 	<GL/glut.h>
