@@ -8,8 +8,8 @@
 
 extern unsigned int IDe[100];
 
-
-
+void tireBezier();
+void streetlight(int son = 1);
 void ok();
 void test();
 void cube(float var2=1,float var1=1);
@@ -32,7 +32,11 @@ void basescene();
 void building();
 void footbalbar();
 void newAcademicBuilding();
+void startb();
+void endb();
 
+
+void light02();
 
 
 #endif

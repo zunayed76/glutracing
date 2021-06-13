@@ -13,7 +13,7 @@ using namespace std;
 float chngEkpashArekpash = 1.6;     /// camera view ekpash theke arek pash e change hbe+ car tao sore jabe ulta pashe 180 degree 0.4 *2
 float chngEkpash = 0.8;             ///  camera + car 90 degree change korbe. 0.4 karon look ar eye er distance 0.4
 ///normal key garir function
-float samneSpeed = 1.1;
+float samneSpeed = .1;
 float pichoneSpeed = 1.1;
 float samneBamDanS = 0.5;        ///bam or dan key press korle samne koto speed e jabe seita  0.02
 float bamdanS = 0.5;              /// bam or dan key press korle bam or dan e koto speed e jabe seita 0.01
@@ -65,7 +65,9 @@ bool scenerotY = false;
 bool scenerotZ = false;
 
 #define PI 3.141592654
-
+bool one = false;
+bool zero = false;
+char* s = "Press Zero to start game";
 //eye-12.5 -1.1 23.8
 //look-12.5 -1.1 24.6
 
@@ -79,12 +81,26 @@ bool scenerotZ = false;
 
 ////
 GLfloat eyeX =-0.5;      ///eye  -0.5
-GLfloat eyeY = -1.1;     /// -1.1
+GLfloat eyeY = -1.6;     /// -1.1
 GLfloat eyeZ = -4.8;        ///-4.8
 
 GLfloat lookX = -0.5;      ///look at point -0.5
-GLfloat lookY = -1.1;      ///-1.1
+GLfloat lookY = -1.6;      ///-1.1
 GLfloat lookZ = -4.0;      ///-4.0
+
+GLfloat locarX[4] = {-11,4,6,8};
+GLfloat locarY[4] = {-1.8,-1.8,-1.8,-1.8};
+GLfloat locarZ[4] = {10,20,20,20};
+
+
+
+
+
+
+
+
+
+
 
 unsigned int IDe[100];
 
@@ -123,7 +139,7 @@ void cube(float var2,float var1)
 
 
     glColor3f(1,1,1);
-    GLfloat mat_ambient[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_ambient[] = { 1.0, 1.0, 1.0, 1.0};          ///1.0, 1.0, 1.0, 1.0
     GLfloat mat_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat mat_shininess[] = {60};
@@ -210,6 +226,33 @@ void cube(float var2,float var1)
 
 
 
+// default font
+void *font = GLUT_BITMAP_TIMES_ROMAN_24;
+#define INT_GLUT_BITMAP_8_BY_13 1
+#define INT_GLUT_BITMAP_9_BY_15 2
+#define INT_GLUT_BITMAP_TIMES_ROMAN_10  3
+#define INT_GLUT_BITMAP_TIMES_ROMAN_24  4
+#define INT_GLUT_BITMAP_HELVETICA_10  5
+#define INT_GLUT_BITMAP_HELVETICA_12  6
+#define INT_GLUT_BITMAP_HELVETICA_18  7
+
+void renderBitmapString(
+		float x,
+		float y,
+		float z,
+		void *font,
+		char *string) {
+
+  char *c;
+  glRasterPos3f(x, y,z);
+
+//  glColor3f(1,0,0);
+  for (c=string; *c != '\0'; c++) {
+    glutBitmapCharacter(font, *c);
+  }
+}
+
+
 
 
 
@@ -241,6 +284,14 @@ static void resize(int width, int height)
 }
 
 
+bool l_on = true;
+bool l_on1 = true;
+bool l_on2 = true;
+
+bool aP = true;
+bool sP = true;
+bool dP = true;
+
 void light()
 {
     //GLfloat no_light[] = { 0.0, 0.0, 0.0, 1.0 };
@@ -260,6 +311,70 @@ void light()
     glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
     glLightf( GL_LIGHT0, GL_SPOT_CUTOFF, 10.0);*/
 }
+void light00()
+{
+
+    GLfloat no_l[] = { 0.0, 0.0, 0.0, 1.0 };
+    GLfloat light0_ambient[]  = {1.000, 0.894, 0.769,1.0};
+    GLfloat light0_diffuse[]  = { .5, .5, .5, 1.0 };
+    GLfloat light0_specular[] = { 0.0, 0.0, 0.0, 1.0 };
+    GLfloat light0_position[] = { 0.0, 0.0, 0.0, 1.0 };
+
+
+    glEnable( GL_LIGHT0);
+    if (l_on || aP)
+        glLightfv( GL_LIGHT0, GL_AMBIENT, light0_ambient);
+    else
+        glLightfv( GL_LIGHT0, GL_AMBIENT, no_l);
+    if (l_on || dP)
+        glLightfv( GL_LIGHT0, GL_DIFFUSE, light0_diffuse);
+    else
+        glLightfv( GL_LIGHT0, GL_DIFFUSE, no_l);
+    if (l_on || sP)
+        glLightfv( GL_LIGHT0, GL_SPECULAR, light0_specular);
+    else
+        glLightfv( GL_LIGHT0, GL_SPECULAR, no_l);
+
+    glLightfv( GL_LIGHT0, GL_POSITION, light0_position);
+
+
+
+
+
+}
+void light02(){
+    GLfloat no_l[] = { 0.0, 0.0, 0.0, 1.0 };
+    glEnable( GL_LIGHT2);
+    GLfloat light2_ambient[] = { 0.5, 0.5, 0.5, 1.0 };
+    GLfloat light2_diffuse[] = { 0.5, 0.5, 0.5, 1.0 };
+    GLfloat light2_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat light2_position[] = { 0.0, 0.0, 0.0, 1.0 };
+    GLfloat spot_direction[] = { 7.0, -2.0, -10 };
+    if (l_on2 || aP)
+        glLightfv( GL_LIGHT2, GL_AMBIENT, light2_ambient);
+    else
+        glLightfv( GL_LIGHT2, GL_AMBIENT, no_l);
+    if (l_on2 || dP)
+        glLightfv( GL_LIGHT2, GL_DIFFUSE, light2_diffuse);
+    else
+        glLightfv( GL_LIGHT2, GL_DIFFUSE, no_l);
+    if (l_on2 || sP)
+        glLightfv( GL_LIGHT2, GL_SPECULAR, light2_specular);
+    else
+        glLightfv( GL_LIGHT2, GL_SPECULAR, no_l);
+   /* if (aP) {glLightfv( GL_LIGHT2, GL_AMBIENT, light2_ambient);glLightfv( GL_LIGHT2, GL_DIFFUSE, no_l);glLightfv( GL_LIGHT2, GL_SPECULAR, no_l);}
+    else    {glLightfv( GL_LIGHT2, GL_AMBIENT, light2_ambient);glLightfv( GL_LIGHT2, GL_DIFFUSE, light2_diffuse);glLightfv( GL_LIGHT2, GL_SPECULAR, light2_specular);}
+    if (sP) {glLightfv(GL_LIGHT2, GL_SPECULAR, light2_specular);glLightfv( GL_LIGHT2, GL_DIFFUSE, no_l);glLightfv( GL_LIGHT2, GL_AMBIENT, no_l);}
+    else    {glLightfv( GL_LIGHT2, GL_AMBIENT, light2_ambient);glLightfv( GL_LIGHT2, GL_DIFFUSE, light2_diffuse);glLightfv( GL_LIGHT2, GL_SPECULAR, light2_specular);}
+    if (dP) {glLightfv( GL_LIGHT2, GL_DIFFUSE, light2_diffuse);glLightfv( GL_LIGHT2, GL_AMBIENT, no_l);glLightfv( GL_LIGHT2, GL_SPECULAR, no_l);}
+    else    {glLightfv( GL_LIGHT2, GL_AMBIENT, light2_ambient);glLightfv( GL_LIGHT2, GL_DIFFUSE, light2_diffuse);glLightfv( GL_LIGHT2, GL_SPECULAR, light2_specular);}
+*/
+    glLightfv( GL_LIGHT2, GL_POSITION, light2_position);
+    glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, 100.0);
+    glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, spot_direction);
+   // glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, 1.0);
+}
+
 
 
 //// test er jonno .....
@@ -269,7 +384,8 @@ void scene1()
 //    glBindTexture(GL_TEXTURE_2D,IDe[4]);
     glPushMatrix();
     glRotatef(rotlimY,0,1,0);
-    auditorium();
+
+    streetlight(4);
     glPopMatrix();
 //    glDisable(GL_TEXTURE_2D);
 }
@@ -280,9 +396,28 @@ void scene1()
 void scene()
 {
 
+
     glPushMatrix();
 
     basescene();
+
+    glPopMatrix();
+///         start of race
+    glPushMatrix();
+    glTranslatef(-12.8,-3,16);
+    startb();
+    glPopMatrix();
+
+///end of track
+    glPushMatrix();
+    glTranslatef(-12.8,-3,102);
+    startb();
+    glPopMatrix();
+
+    glPushMatrix();
+
+    glTranslatef(-20,60,50);
+    light00();
 
     glPopMatrix();
 
@@ -297,7 +432,36 @@ void scene()
     ok();
     glPopMatrix();
 
+///random car 1
+     glPushMatrix();
 
+
+    glTranslatef(locarX[0],locarY[0],locarZ[0] );        ///lookX,lookY,lookZ        -0.5,-1.5,0.2
+    //glTranslatef(-0.5,-1.5,0.2);
+    //glRotatef(rotlim,0,1,0);
+    glScalef(0.04,0.05,0.05);
+    ok();
+    glPopMatrix();
+
+
+
+
+
+///street light
+    glPushMatrix();
+    glTranslatef(-15,-1,20);
+    streetlight(20);
+
+
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(-10,-1,100);
+    glRotatef(180,0,1,0);
+    streetlight(20);
+
+
+    glPopMatrix();
 
     ///deyal
 
@@ -370,7 +534,7 @@ void scene()
     glBindTexture(GL_TEXTURE_2D,IDe[4]);
     glPushMatrix();
     glScalef(10,0.1,2);
-    glTranslatef(-0.8,-20,12.5);
+    glTranslatef(-0.8,-21,12.5);
     cube(6,20);         ///2 no mane dan e bam e repeat
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
@@ -511,7 +675,7 @@ void scene()
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,IDe[4]);
     glPushMatrix();
-    glTranslatef(-3.8,-2,60);
+    glTranslatef(-3.8,-2.1,60);
     glScalef(16,0.1,2);
     cube(6,20);         ///2 no mane dan e bam e repeat
     glPopMatrix();
@@ -519,7 +683,7 @@ void scene()
 ///bqanger rastar fuler deyal
     glPushMatrix();
     glScalef(1,1,1);
-    glTranslatef(-10,-2,60);
+    glTranslatef(-10,-2.1,60);
     fulerwall(12);
     glPopMatrix();
 
@@ -540,7 +704,7 @@ void scene()
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,IDe[4]);
     glPushMatrix();
-    glTranslatef(-3.8,-2,75);
+    glTranslatef(-3.8,-2.1,75);
     glScalef(16,0.1,2);
     cube(6,20);         ///2 no mane dan e bam e repeat
     glPopMatrix();
@@ -548,7 +712,7 @@ void scene()
 ///amar rastar fuler deyal
     glPushMatrix();
     glScalef(1,1,1);
-    glTranslatef(-10,-2,75);
+    glTranslatef(-10,-2.1,75);
     fulerwall(12);
     glPopMatrix();
 ///lalan
@@ -561,7 +725,7 @@ void scene()
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,IDe[4]);
     glPushMatrix();
-    glTranslatef(-3.8,-2,90);
+    glTranslatef(-3.8,-2.1,90);
     glScalef(16,0.1,2);
     cube(6,20);         ///2 no mane dan e bam e repeat
     glPopMatrix();
@@ -569,7 +733,7 @@ void scene()
     ///laln rastar fuler deyal
     glPushMatrix();
     glScalef(1,1,1);
-    glTranslatef(-10,-2,90);
+    glTranslatef(-10,-2.1,90);
     fulerwall(12);
     glPopMatrix();
 
@@ -689,6 +853,9 @@ void scene()
     ///rasta sesh
 
 
+
+
+
 }
 
 
@@ -703,6 +870,9 @@ void display(void)
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 
     glMatrixMode( GL_PROJECTION );
+    //glPopMatrix();                            ///
+   // glMatrixMode(GL_MODELVIEW); //...this     ///
+   // glPopMatrix();                            ///
     glLoadIdentity();
     //glOrtho(0.0,2,0.0,2,0.0,1.0);
     //glFrustum(-6,6,-6,6, 1, 30);
@@ -725,9 +895,56 @@ void display(void)
 
     glPopMatrix();
 
+//    glPushMatrix();
+//    glColor3f(0.5f, 0.5f, 0.5f);
+//    renderBitmapString(5,5,10,font,s);
+//    glPopMatrix();
+
 
     glFlush();
     glutSwapBuffers();
+
+}
+void display1(void)
+{
+    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+    glMatrixMode( GL_PROJECTION );
+    //glPopMatrix();                            ///
+   // glMatrixMode(GL_MODELVIEW); //...this     ///
+   // glPopMatrix();                            ///
+    glLoadIdentity();
+    //glOrtho(0.0,2,0.0,2,0.0,1.0);
+    //glFrustum(-6,6,-6,6, 1, 30);
+    glFrustum(-0.1,0.1,-0.1,0.1, 0.1,500);          ///-0.5625,0.5625,-0.5,0.5, 0.1,80        -1,1,-1,1,2,80
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+    gluLookAt(0,0,-1,0,0,0, 0,1,0);
+
+    glViewport(0, 0, windowHeight, windowWidth);
+
+
+
+    glPushMatrix();
+    glColor3f(0.5f, 0.5f, 0.5f);
+    renderBitmapString(11,-6,10,font,s);
+    glPopMatrix();
+    glPushMatrix();
+    glColor3f(0.5f, 0.5f, 0.5f);
+    renderBitmapString(11,-7,10,font,s);
+    glPopMatrix();
+    glColor3f(0.5f, 0.5f, 0.5f);
+    renderBitmapString(11,-8,10,font,"something random");
+    glPopMatrix();
+
+
+
+
+    glFlush();
+    glutSwapBuffers();
+
+
+
 
 }
 
@@ -796,6 +1013,12 @@ void myKeyboardFunc( unsigned char key, int x, int y )
         break;
     case 't':
         scenerotZ = !scenerotZ;
+        break;
+    case '1':
+        one = !one;
+        break;
+    case '0':
+        zero = !zero;
         break;
     case 27:	// Escape key
         exit(1);
@@ -913,10 +1136,6 @@ void SpecialInput(int key, int x, int y)        ///don't touch z
     }
 
 }
-
-
-
-
 
 
 
@@ -1172,12 +1391,29 @@ void animate()
 
     }
 
+    if (one)
+    {
+        s = "ui";
+
+        one = false;
+    }
+    if (zero)
+    {
+        s = "";
+        zero = false;
+    }
+
+
+//    if(lookZ >=15 && lookZ<=16)
+//    {
+//        cout<<"kaj kortese"<<endl;
+//
+//    }
 
 
     glutPostRedisplay();
+
 }
-
-
 
 
 
@@ -1195,7 +1431,7 @@ void LoadTexture(const char*filename, int nnn)
     gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGB, bl.iWidth, bl.iHeight, GL_RGB, GL_UNSIGNED_BYTE, bl.textureData );
 }
 
-
+GLint mainWindow, subWindow1;
 
 
 int main (int argc, char **argv)
@@ -1205,7 +1441,8 @@ int main (int argc, char **argv)
 
     glutInitWindowPosition(0,0);
     glutInitWindowSize(windowHeight, windowWidth);
-    glutCreateWindow("1607076-ClassRoom");
+    mainWindow = glutCreateWindow("1607076-ClassRoom");
+    glutDisplayFunc(display);
 
 
     LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\carclr.bmp", 0);
@@ -1220,12 +1457,12 @@ int main (int argc, char **argv)
     LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\whitebrick.bmp", 9);
     LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\columnbuild.bmp", 10);
     LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\audibuild.bmp", 11);
+    LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\sky.bmp", 12);
+    LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\chess.bmp", 13);
 
 
     glutKeyboardFunc(myKeyboardFunc);
     glutSpecialFunc(SpecialInput);
-    glutDisplayFunc(display);
-
     glutIdleFunc(animate);
     glClearColor(0,0,0,1);
     glShadeModel( GL_SMOOTH );
@@ -1236,6 +1473,10 @@ int main (int argc, char **argv)
 
 
     light();
+    subWindow1 = glutCreateSubWindow(mainWindow, 0,0,250,300);
+    glutDisplayFunc(display1);
+    glutKeyboardFunc(myKeyboardFunc);
+    glutIdleFunc(animate);
 
     glutMainLoop();
 

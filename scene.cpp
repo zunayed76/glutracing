@@ -10,10 +10,48 @@
 using namespace std;
 
 
+void startb()
+{
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,IDe[13]);
+    glPushMatrix();
+    glScalef(4,2,1);
+    //light02();
+    cube();
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 
 
+}
+
+void endb()
+{
+
+}
 
 
+void streetlight(int son)
+{
+    for(int i = 0;i<son;i++){
+    glPushMatrix();
+    glTranslatef(0,0,4*i);
+    glScalef(0.1,2,0.1);
+    cube();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(0.25,1,4*i);
+    glScalef(0.5,0.1,0.1);
+    //light02();
+    cube();
+    glPopMatrix();
+    glPushMatrix();
+    glTranslatef(0.25,1,4*i);
+    glScalef(0.5,0.1,0.1);
+    light02();
+    glPopMatrix();
+
+    }
+}
 
 
 void auditorium()
@@ -346,22 +384,99 @@ void basescene()
     glBegin(GL_QUADS);
 
 
-
-    glVertex3f(-60,-2.1,-5);  glTexCoord2f(0,125);
-    glVertex3f(10,-2.1,-5);  glTexCoord2f(0,0);
-    glVertex3f(10,-2.1,125); glTexCoord2f(70,0);
-    glVertex3f(-60,-2.1,125); glTexCoord2f(70,125);
+    glTexCoord2f(0,125);
+    glVertex3f(-60,-2.1,-5);
+    glTexCoord2f(0,0);
+    glVertex3f(10,-2.1,-5);
+    glTexCoord2f(70,0);
+    glVertex3f(10,-2.1,125);
+    glTexCoord2f(70,125);
+    glVertex3f(-60,-2.1,125);
 
     glEnd();
-
-
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);
 
 
 
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,IDe[12]);
+
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glTexCoord2f(0,1);
+    glVertex3f(-60,-2.1,125);
+    glTexCoord2f(0,0);
+    glVertex3f(10,-2.1,125);
+    glTexCoord2f(1,0);
+    glVertex3f(10,100,125);
+    glTexCoord2f(1,1);
+    glVertex3f(-60,100,125);
+    glEnd();
+    glPopMatrix();
+
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glTexCoord2f(0,1);
+    glVertex3f(10,-2.1,-5);
+    glTexCoord2f(0,0);
+    glVertex3f(10,-2.1,125);
+    glTexCoord2f(1,0);
+    glVertex3f(10,100,125);
+    glTexCoord2f(1,1);
+    glVertex3f(10,100,-5);
+    glEnd();
+    glPopMatrix();
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glTexCoord2f(0,1);
+    glVertex3f(-60,-2.1,-5);
+    glTexCoord2f(0,0);
+    glVertex3f(-60,-2.1,125);
+    glTexCoord2f(1,0);
+    glVertex3f(-60,100,125);
+    glTexCoord2f(1,1);
+    glVertex3f(-60,100,-5);
+    glEnd();
+    glPopMatrix();
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glTexCoord2f(0,1);
+    glVertex3f(-60,-2.1,-5);
+    glTexCoord2f(0,0);
+    glVertex3f(10,-2.1,-5);
+    glTexCoord2f(1,0);
+    glVertex3f(10,100,-5);
+    glTexCoord2f(1,1);
+    glVertex3f(-60,100,-5);
+    glEnd();
+    glPopMatrix();
 
 
+        glPushMatrix();
+
+
+
+
+    glBegin(GL_QUADS);
+
+
+    glTexCoord2f(0,1);
+    glVertex3f(-60,100,-5);
+    glTexCoord2f(0,0);
+    glVertex3f(10,100,-5);
+    glTexCoord2f(1,0);
+    glVertex3f(10,100,125);
+    glTexCoord2f(1,1);
+    glVertex3f(-60,100,125);
+
+    glEnd();
+    glPopMatrix();
+
+
+
+
+    glDisable(GL_TEXTURE_2D);
 
 
 
