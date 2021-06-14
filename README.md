@@ -1,7 +1,7 @@
 # glutracing
 
 This is a
-the finalproject in graphics 4208 created using glut in opengl. 
+the final project in graphics 4208 created using glut in opengl. 
 
 
 
