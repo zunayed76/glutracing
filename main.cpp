@@ -5,18 +5,35 @@
 #include <windows.h>
 #include<math.h>
 #include<bits/stdc++.h>
+#include <string>
+#include <sstream>
 #include "header.h"
 #include "BmpLoader.h"
 using namespace std;
+
+///l,o,p to toggle lights man
+
+
+
+
+namespace patch
+{
+    template < typename T > std::string to_string( const T& n )
+    {
+        std::ostringstream stm ;
+        stm << n ;
+        return stm.str() ;
+    }
+}
 
 ///special key garir function
 float chngEkpashArekpash = 1.6;     /// camera view ekpash theke arek pash e change hbe+ car tao sore jabe ulta pashe 180 degree 0.4 *2
 float chngEkpash = 0.8;             ///  camera + car 90 degree change korbe. 0.4 karon look ar eye er distance 0.4
 ///normal key garir function
-float samneSpeed = .1;
-float pichoneSpeed = 1.1;
-float samneBamDanS = 0.5;        ///bam or dan key press korle samne koto speed e jabe seita  0.02
-float bamdanS = 0.5;              /// bam or dan key press korle bam or dan e koto speed e jabe seita 0.01
+float samneSpeed = .21;              ///0.3
+float pichoneSpeed = 0.2;
+float samneBamDanS = 0.04;        ///bam or dan key press korle samne koto speed e jabe seita  0.02
+float bamdanS = 0.04;              /// bam or dan key press korle bam or dan e koto speed e jabe seita 0.01
 
 
 
@@ -30,6 +47,7 @@ bool rott=false;
 float rotlimX = 0.0;
 float rotlimY = 0.0;
 float rotlimZ = 0.0;
+float rotlimO = 0.0;
 float rotlim = 0.0;      ///garir rotation
 
 
@@ -67,7 +85,13 @@ bool scenerotZ = false;
 #define PI 3.141592654
 bool one = false;
 bool zero = false;
+bool five = false;
 char* s = "Press Zero to start game";
+char* s1 = "Press ONE to reset";
+char* s2 = "Press 5 to know score";
+char* s3 = "";
+char* s4 = "Use W,A,S,D to move around";
+char* s5 = "Use arrow keys to rotate";
 //eye-12.5 -1.1 23.8
 //look-12.5 -1.1 24.6
 
@@ -81,19 +105,27 @@ char* s = "Press Zero to start game";
 
 ////
 GLfloat eyeX =-0.5;      ///eye  -0.5
-GLfloat eyeY = -1.6;     /// -1.1
+GLfloat eyeY = -1.5;     /// -1.1
 GLfloat eyeZ = -4.8;        ///-4.8
 
 GLfloat lookX = -0.5;      ///look at point -0.5
-GLfloat lookY = -1.6;      ///-1.1
+GLfloat lookY = -1.5;      ///-1.1
 GLfloat lookZ = -4.0;      ///-4.0
 
-GLfloat locarX[4] = {-11,4,6,8};
-GLfloat locarY[4] = {-1.8,-1.8,-1.8,-1.8};
-GLfloat locarZ[4] = {10,20,20,20};
 
 
 
+
+///sob car related variable
+GLfloat locarX[4] = {-12,-12.7,-13.4,-14.1};   ///gari gular location
+GLfloat locarY[4] = {-6.7,-6.7,-6.7,-6.7};
+GLfloat locarZ[4] = {14,14,14,14};
+bool racestart = false;
+bool racecounter = false;
+bool deathtrap = false;
+double currenttime = 0.0;
+double racefinishtime = 0.0;
+double scorerace = 0.0;
 
 
 
@@ -112,7 +144,36 @@ bool xap = false;  //true
 
 
 
+void matColor(double kdr, double kdg, double kdb,  double shiny, int frnt_Back, double ambFactor, double specFactor)
+{
 
+    const GLfloat mat_ambient[]    = { kdr*ambFactor, kdg*ambFactor, kdb*ambFactor, 1.0f };
+    const GLfloat mat_diffuse[]    = { kdr, kdg, kdb, 1.0f };
+    const GLfloat mat_specular[]   = { 1.0f*specFactor, 1.0f*specFactor, 1.0f*specFactor, 1.0f };
+    const GLfloat high_shininess[] = { shiny };
+    if(frnt_Back==0)
+    {
+        glMaterialfv(GL_FRONT, GL_AMBIENT,   mat_ambient);
+        glMaterialfv(GL_FRONT, GL_DIFFUSE,   mat_diffuse);
+        glMaterialfv(GL_FRONT, GL_SPECULAR,  mat_specular);
+        glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
+    }
+    else if(frnt_Back==1)
+    {
+        glMaterialfv(GL_BACK, GL_AMBIENT,   mat_ambient);
+        glMaterialfv(GL_BACK, GL_DIFFUSE,   mat_diffuse);
+        glMaterialfv(GL_BACK, GL_SPECULAR,  mat_specular);
+        glMaterialfv(GL_BACK, GL_SHININESS, high_shininess);
+    }
+    else if(frnt_Back==2)
+    {
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   mat_ambient);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,   mat_diffuse);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  mat_specular);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, high_shininess);
+    }
+
+}
 static void getNormal3p
 (GLfloat x1, GLfloat y1,GLfloat z1, GLfloat x2, GLfloat y2,GLfloat z2, GLfloat x3, GLfloat y3,GLfloat z3)
 {
@@ -138,21 +199,10 @@ void cube(float var2,float var1)
 {
 
 
-    glColor3f(1,1,1);
-    GLfloat mat_ambient[] = { 1.0, 1.0, 1.0, 1.0};          ///1.0, 1.0, 1.0, 1.0
-    GLfloat mat_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat mat_shininess[] = {60};
+    //glColor3f(1,1,1);
+    matColor(0.7,0.7,0.7);
 
-    glMaterialfv( GL_FRONT, GL_AMBIENT, mat_ambient);
-    glMaterialfv( GL_FRONT, GL_DIFFUSE, mat_diffuse);
-    glMaterialfv( GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv( GL_FRONT, GL_SHININESS, mat_shininess);
 
-   // glTexCoord2f(1,1);
-   //glTexCoord2f(1,0);
-   // glTexCoord2f(0,0);
-    //glTexCoord2f(0,1);
 
 
 
@@ -284,53 +334,40 @@ static void resize(int width, int height)
 }
 
 
-bool l_on = true;
-bool l_on1 = true;
-bool l_on2 = true;
+bool l_on = false;
+bool l_on1 = false;
+bool l_on2 = false;
 
 bool aP = true;
 bool sP = true;
 bool dP = true;
 
-void light()
-{
-    //GLfloat no_light[] = { 0.0, 0.0, 0.0, 1.0 };
-    GLfloat light_ambient[]  = {1.0, 1.0, 1.0, 1.0};
-    GLfloat light_diffuse[]  = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat light_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat light_position[] = { 0.0, 10.0, 50.0, 1.0 };
+bool el = false;
+bool ol = false;
+bool pl = false;
 
-    glEnable( GL_LIGHT0);
 
-    glLightfv( GL_LIGHT0, GL_AMBIENT, light_ambient);
-    glLightfv( GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-    glLightfv( GL_LIGHT0, GL_SPECULAR, light_specular);
-    glLightfv( GL_LIGHT0, GL_POSITION, light_position);
 
-    /*GLfloat spot_direction[] = { 0.0, -1.0, 0.0 };
-    glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, spot_direction);
-    glLightf( GL_LIGHT0, GL_SPOT_CUTOFF, 10.0);*/
-}
 void light00()
 {
 
     GLfloat no_l[] = { 0.0, 0.0, 0.0, 1.0 };
     GLfloat light0_ambient[]  = {1.000, 0.894, 0.769,1.0};
-    GLfloat light0_diffuse[]  = { .5, .5, .5, 1.0 };
-    GLfloat light0_specular[] = { 0.0, 0.0, 0.0, 1.0 };
+    GLfloat light0_diffuse[]  = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat light0_specular[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat light0_position[] = { 0.0, 0.0, 0.0, 1.0 };
 
 
     glEnable( GL_LIGHT0);
-    if (l_on || aP)
+    if (l_on)
         glLightfv( GL_LIGHT0, GL_AMBIENT, light0_ambient);
     else
         glLightfv( GL_LIGHT0, GL_AMBIENT, no_l);
-    if (l_on || dP)
+    if (l_on)
         glLightfv( GL_LIGHT0, GL_DIFFUSE, light0_diffuse);
     else
         glLightfv( GL_LIGHT0, GL_DIFFUSE, no_l);
-    if (l_on || sP)
+    if (l_on)
         glLightfv( GL_LIGHT0, GL_SPECULAR, light0_specular);
     else
         glLightfv( GL_LIGHT0, GL_SPECULAR, no_l);
@@ -342,6 +379,39 @@ void light00()
 
 
 }
+
+void light01()
+{
+
+    GLfloat no_l[] = { 0.0, 0.0, 0.0, 1.0 };
+    GLfloat light1_ambient[]  = {1.000, 0, 0,1.0};
+    GLfloat light1_diffuse[]  = { 1.0, 0, 0, 1.0 };
+    GLfloat light1_specular[] = { 1.0, 0, 0, 1.0 };
+    GLfloat light1_position[] = { 0.0, 0.0, 0.0, 1.0 };
+    GLfloat spot_direction[] = { 0.0, 0.0, 5 };
+
+    glEnable( GL_LIGHT1);
+    if (l_on1)
+        glLightfv( GL_LIGHT1, GL_AMBIENT, light1_ambient);
+    else
+        glLightfv( GL_LIGHT1, GL_AMBIENT, no_l);
+    if (l_on1)
+        glLightfv( GL_LIGHT1, GL_DIFFUSE, light1_diffuse);
+    else
+        glLightfv( GL_LIGHT1, GL_DIFFUSE, no_l);
+    if (l_on1)
+        glLightfv( GL_LIGHT1, GL_SPECULAR, light1_specular);
+    else
+        glLightfv( GL_LIGHT1, GL_SPECULAR, no_l);
+
+    glLightfv( GL_LIGHT1, GL_POSITION, light1_position);
+
+
+
+}
+
+
+
 void light02(){
     GLfloat no_l[] = { 0.0, 0.0, 0.0, 1.0 };
     glEnable( GL_LIGHT2);
@@ -349,16 +419,16 @@ void light02(){
     GLfloat light2_diffuse[] = { 0.5, 0.5, 0.5, 1.0 };
     GLfloat light2_specular[] = { 1.0, 1.0, 1.0, 1.0 };
     GLfloat light2_position[] = { 0.0, 0.0, 0.0, 1.0 };
-    GLfloat spot_direction[] = { 7.0, -2.0, -10 };
-    if (l_on2 || aP)
+    GLfloat spot_direction[] = { 7.0, -2.0, 30 };
+    if (l_on2)
         glLightfv( GL_LIGHT2, GL_AMBIENT, light2_ambient);
     else
         glLightfv( GL_LIGHT2, GL_AMBIENT, no_l);
-    if (l_on2 || dP)
+    if (l_on2)
         glLightfv( GL_LIGHT2, GL_DIFFUSE, light2_diffuse);
     else
         glLightfv( GL_LIGHT2, GL_DIFFUSE, no_l);
-    if (l_on2 || sP)
+    if (l_on2 )
         glLightfv( GL_LIGHT2, GL_SPECULAR, light2_specular);
     else
         glLightfv( GL_LIGHT2, GL_SPECULAR, no_l);
@@ -384,8 +454,8 @@ void scene1()
 //    glBindTexture(GL_TEXTURE_2D,IDe[4]);
     glPushMatrix();
     glRotatef(rotlimY,0,1,0);
+    ok();
 
-    streetlight(4);
     glPopMatrix();
 //    glDisable(GL_TEXTURE_2D);
 }
@@ -414,12 +484,40 @@ void scene()
     startb();
     glPopMatrix();
 
+
+
+
+
+    ///grand obstacle
+    glPushMatrix();
+    glTranslatef(-12.4,-1.7,60);
+    glRotatef(rotlimO,0,1,0);
+    ostacs(1,14);
+
+    glPopMatrix();
+    ///obstacle array 1
+    glPushMatrix();
+    glTranslatef(-11.2,-1.7,30);
+    ostacs(8,15);
+
+    glPopMatrix();
+    ///obstacle array 2
+    glPushMatrix();
+    glTranslatef(-13.6,-1.7,35);
+    ostacs(8,15);
+
+    glPopMatrix();
+
+
+///light
+    for(int i=0;i<50;i++){
     glPushMatrix();
 
-    glTranslatef(-20,60,50);
+    glTranslatef(-20,i*2,50);
     light00();
 
     glPopMatrix();
+    }
 
 ///garir code e hat dibo na robbar er age
     glPushMatrix();
@@ -440,7 +538,37 @@ void scene()
     //glTranslatef(-0.5,-1.5,0.2);
     //glRotatef(rotlim,0,1,0);
     glScalef(0.04,0.05,0.05);
-    ok();
+    ok(17);
+    glPopMatrix();
+///random car 2
+     glPushMatrix();
+
+
+    glTranslatef(locarX[1],locarY[1],locarZ[1] );        ///lookX,lookY,lookZ        -0.5,-1.5,0.2
+    //glTranslatef(-0.5,-1.5,0.2);
+    //glRotatef(rotlim,0,1,0);
+    glScalef(0.04,0.05,0.05);
+    ok(18);
+    glPopMatrix();
+///random car 3
+     glPushMatrix();
+
+
+    glTranslatef(locarX[2],locarY[2],locarZ[2] );        ///lookX,lookY,lookZ        -0.5,-1.5,0.2
+    //glTranslatef(-0.5,-1.5,0.2);
+    //glRotatef(rotlim,0,1,0);
+    glScalef(0.04,0.05,0.05);
+    ok(19);
+    glPopMatrix();
+///random car 4
+     glPushMatrix();
+
+
+    glTranslatef(locarX[3],locarY[3],locarZ[3] );        ///lookX,lookY,lookZ        -0.5,-1.5,0.2
+    //glTranslatef(-0.5,-1.5,0.2);
+    //glRotatef(rotlim,0,1,0);
+    glScalef(0.04,0.05,0.05);
+    ok(18);
     glPopMatrix();
 
 
@@ -931,12 +1059,24 @@ void display1(void)
     glPopMatrix();
     glPushMatrix();
     glColor3f(0.5f, 0.5f, 0.5f);
-    renderBitmapString(11,-7,10,font,s);
+    renderBitmapString(11,-7,10,font,s1);
     glPopMatrix();
+    glPushMatrix();
     glColor3f(0.5f, 0.5f, 0.5f);
-    renderBitmapString(11,-8,10,font,"something random");
+    renderBitmapString(11,-8,10,font,s2);
     glPopMatrix();
-
+    glPushMatrix();
+    glColor3f(0.5f, 0.5f, 0.5f);
+    renderBitmapString(11,-9,10,font,s3);
+    glPopMatrix();
+    glPushMatrix();
+    glColor3f(0.5f, 0.5f, 0.5f);
+    renderBitmapString(11,-10,10,font,s4);
+    glPopMatrix();
+    glPushMatrix();
+    glColor3f(0.5f, 0.5f, 0.5f);
+    renderBitmapString(11,-11,10,font,s5);
+    glPopMatrix();
 
 
 
@@ -979,20 +1119,6 @@ void myKeyboardFunc( unsigned char key, int x, int y )
         backward =! backward;
         break;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     case 'c':
         chX = !chX;
         break;
@@ -1000,12 +1126,7 @@ void myKeyboardFunc( unsigned char key, int x, int y )
         chY = !chY;
         break;
 
-
-
-
-
-
-    case 'e':
+ case 'e':
         scenerotX = !scenerotX;
         break;
     case 'r':
@@ -1014,11 +1135,26 @@ void myKeyboardFunc( unsigned char key, int x, int y )
     case 't':
         scenerotZ = !scenerotZ;
         break;
+    case 'l':
+        //street light
+        l_on2 = 1 - l_on2;
+        el = !el;
+        break;
+    case 'o':
+        l_on = 1 - l_on;
+        break;
+    case 'p':
+        l_on1 = 1 - l_on1;
+        break;
     case '1':
         one = !one;
         break;
     case '0':
         zero = !zero;
+    case '5':
+        five = !five;
+//    case '9':
+//        zero = false;
         break;
     case 27:	// Escape key
         exit(1);
@@ -1141,7 +1277,24 @@ void SpecialInput(int key, int x, int y)        ///don't touch z
 
 
 
+void stringebanamu(double a)
+{
+        string str1 = patch::to_string(a);
+        string str2 = "The score is: ";
+        string str3 = str2 + str1;
 
+        string str4 = "testing";
+        char *cstr = new char[str3.length() + 1];
+        strcpy(cstr, str3.c_str());
+
+//        for(int i=0;i<6;i++)
+//        {
+//            psss[i] = str4[i];
+//        }
+
+        s2 =  cstr;
+
+}
 
 
 
@@ -1150,6 +1303,33 @@ void SpecialInput(int key, int x, int y)        ///don't touch z
 
 void animate()
 {
+
+
+//    if(el)
+//    {
+//        l_on = true;
+//        l_on1 = true;
+//        l_on2 = true;
+//        el = false;
+//    }
+//    if(kel)
+//    {
+//        l_on = false;
+//        l_on1 = false;
+//        l_on2 = false;
+//        kel = false;
+//    }
+
+
+
+
+
+
+
+    if(rotlimO >= 360.0) rotlimO = 0.0;
+    rotlimO += 0.5;
+
+
 
     if (forWard)                      /// samne jabe
     {
@@ -1322,10 +1502,6 @@ void animate()
 
 
 
-
-
-
-
     if (chkx)
     {
         eyeX = eyeX + samneSpeed;
@@ -1391,24 +1567,202 @@ void animate()
 
     }
 
+    if(five)
+    {
+        stringebanamu(scorerace);
+
+
+        five = false;
+    }
     if (one)
     {
-        s = "ui";
+        s = "Press Zero to start game";
+        s2 = "Press 5 to know score";
+        s3 = "";
+        eyeX =-0.5;      ///eye  -0.5
+        eyeY = -1.5;     /// -1.1
+        eyeZ = -4.8;        ///-4.8
 
+        lookX = -0.5;      ///look at point -0.5
+        lookY = -1.5;      ///-1.1
+        lookZ = -4.0;      ///-4.0
+        locarY[0] = -6.7;
+        locarY[1] = -6.7;
+        locarY[2] = -6.7;
+        locarY[3] = -6.7;
+        racestart = false;
+        racecounter = false;
         one = false;
     }
     if (zero)
     {
-        s = "";
+        s = "Race will Start soon";
+        eyeX =-11.2;      ///eye  -0.5
+        eyeY = -1.5;     /// -1.1
+        eyeZ = 13.1;        ///-4.8
+
+        lookX = -11.2;      ///look at point -0.5
+        lookY = -1.5;      ///-1.1
+        lookZ = 13.9;      ///-4.0
+
+ /// onno sob car ekdom shurur position e jabe ga
+
+        locarX[0] = -12;
+        locarX[1] = -12.7;
+        locarX[2] = -13.4;
+        locarX[3] = -14.1;   ///gari gular location
+        locarY[0] = -1.7;
+        locarY[1] = -1.7;
+        locarY[2] = -1.7;
+        locarY[3] = -1.7;
+        locarZ[0] = 14;
+        locarZ[1] = 14;
+        locarZ[2] = 14;
+        locarZ[3] = 14;
+
+
+
+
+        rotlim = 0;
+        racestart = true;
+        cout<<"race status  "<<racestart<<endl;
+        racecounter = false;
         zero = false;
+
+    }
+/// upre button press er logic for subwindow
+
+    if(deathtrap)
+    {
+        s3= "Game Over";
+        zero = true;
+        deathtrap = false;
+    }
+
+    ///egula race er logic.upre collision er logic
+    if(lookX >=-14.8 && lookX<=-10.9 && lookZ >= 15.4 && lookZ<=16.1 && racestart)
+    {
+        racecounter = true;
+        s = "Race is on";
+        currenttime = glutGet(GLUT_ELAPSED_TIME);
+        cout<<currenttime<<"       current"<<endl;
+        cout<<"kaj kortese"<<endl;
+
+    }
+    if(lookX >=-14.8 && lookX<=-10.9 && lookZ >= 101.4 && lookZ<=102.1 && racecounter)
+    {
+        s = "Race is finished";
+        racefinishtime = glutGet(GLUT_ELAPSED_TIME);
+        scorerace = (racefinishtime - currenttime) / 1000;
+
+        cout<<currenttime<<"       current"<<endl;
+        cout<<racefinishtime<<"       finishtime"<<endl;
+        cout<<scorerace<<"       seconds passed"<<endl;
+
+        racecounter = false;
+    }
+    if(racecounter == true)
+    {
+
+        locarZ[0]+=0.047;
+        locarZ[1]+=0.04;
+        locarZ[2]+=0.056;
+        locarZ[3]+=0.05;
+
+
+    }
+    if(lookX >=-12.6 && lookX<=-12.2 && lookZ >= 59.5 && lookZ<=60 && racecounter)
+    {
+        deathtrap = true;
     }
 
 
-//    if(lookZ >=15 && lookZ<=16)
-//    {
-//        cout<<"kaj kortese"<<endl;
-//
-//    }
+    ///row 1
+    if(lookX >=-11.4 && lookX<=-11.0 && lookZ >= 29.5 && lookZ<=30 && racecounter)
+    {
+        eyeZ = eyeZ  - 5;
+        lookZ = lookZ - 5;
+    }
+    if(lookX >=-11.4 && lookX<=-11.0 && lookZ >= 29.5+(9*1) && lookZ<=30+(9*1) && racecounter)
+    {
+        eyeZ = eyeZ  - 5;
+        lookZ = lookZ - 5;
+    }
+    if(lookX >=-11.4 && lookX<=-11.0 && lookZ >= 29.5+(9*2) && lookZ<=30+(9*2) && racecounter)
+    {
+        eyeZ = eyeZ  - 5;
+        lookZ = lookZ - 5;
+    }
+    if(lookX >=-11.4 && lookX<=-11.0 && lookZ >= 29.5+(9*3) && lookZ<=30+(9*3) && racecounter)
+    {
+        eyeZ = eyeZ  - 5;
+        lookZ = lookZ - 5;
+    }
+    if(lookX >=-11.4 && lookX<=-11.0 && lookZ >= 29.5+(9*4) && lookZ<=30+(9*4) && racecounter)
+    {
+        eyeZ = eyeZ  - 5;
+        lookZ = lookZ - 5;
+    }
+    if(lookX >=-11.4 && lookX<=-11.0 && lookZ >= 29.5+(9*5) && lookZ<=30+(9*5) && racecounter)
+    {
+        eyeZ = eyeZ  - 5;
+        lookZ = lookZ - 5;
+    }
+    if(lookX >=-11.4 && lookX<=-11.0 && lookZ >= 29.5+(9*6) && lookZ<=30+(9*6) && racecounter)
+    {
+        eyeZ = eyeZ  - 5;
+        lookZ = lookZ - 5;
+    }
+    if(lookX >=-11.4 && lookX<=-11.0 && lookZ >= 29.5+(9*7) && lookZ<=30+(9*7) && racecounter)
+    {
+        eyeZ = eyeZ  - 5;
+        lookZ = lookZ - 5;
+    }
+
+    ///row 2
+    if(lookX >=-13.8 && lookX<=-13.4 && lookZ >= 34.5 && lookZ<=35 && racecounter)
+    {
+        eyeZ = eyeZ  - 5;
+        lookZ = lookZ - 5;
+    }
+    if(lookX >=-13.8 && lookX<=-13.4 && lookZ >= 34.5+(9*1) && lookZ<=35+(9*1) && racecounter)
+    {
+        eyeZ = eyeZ  - 5;
+        lookZ = lookZ - 5;
+    }
+    if(lookX >=-13.8 && lookX<=-13.4 && lookZ >= 34.5+(9*2) && lookZ<=35+(9*2) && racecounter)
+    {
+        eyeZ = eyeZ  - 5;
+        lookZ = lookZ - 5;
+    }
+    if(lookX >=-13.8 && lookX<=-13.4 && lookZ >= 34.5+(9*3) && lookZ<=35+(9*3) && racecounter)
+    {
+        eyeZ = eyeZ  - 5;
+        lookZ = lookZ - 5;
+    }
+    if(lookX >=-13.8 && lookX<=-13.4 && lookZ >= 34.5+(9*4) && lookZ<=35+(9*4) && racecounter)
+    {
+        eyeZ = eyeZ  - 5;
+        lookZ = lookZ - 5;
+    }
+    if(lookX >=-13.8 && lookX<=-13.4 && lookZ >= 34.5+(9*5) && lookZ<=35+(9*5) && racecounter)
+    {
+        eyeZ = eyeZ  - 5;
+        lookZ = lookZ - 5;
+    }
+    if(lookX >=-13.8 && lookX<=-13.4 && lookZ >= 34.5+(9*6) && lookZ<=35+(9*6) && racecounter)
+    {
+        eyeZ = eyeZ  - 5;
+        lookZ = lookZ - 5;
+    }
+    if(lookX >=-13.8 && lookX<=-13.4 && lookZ >= 34.5+(9*7) && lookZ<=35+(9*7) && racecounter)
+    {
+        eyeZ = eyeZ  - 5;
+        lookZ = lookZ - 5;
+    }
+
+
+
 
 
     glutPostRedisplay();
@@ -1445,7 +1799,7 @@ int main (int argc, char **argv)
     glutDisplayFunc(display);
 
 
-    LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\carclr.bmp", 0);
+    LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\redcar.bmp", 0);
     LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\creambuiding.bmp", 1);
     LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\building.bmp", 2);
     LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\license.bmp", 3);
@@ -1459,6 +1813,13 @@ int main (int argc, char **argv)
     LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\audibuild.bmp", 11);
     LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\sky.bmp", 12);
     LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\chess.bmp", 13);
+    LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\skull.bmp", 14);
+    LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\danger.bmp", 15);
+    LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\grey.bmp", 16);
+    LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\green.bmp", 17);
+    LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\blue.bmp", 18);
+    LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\copper.bmp", 19);
+    LoadTexture("C:\\Users\\zunayed76\\Desktop\\glutracing\\texture\\redlight.bmp", 20);
 
 
     glutKeyboardFunc(myKeyboardFunc);
@@ -1469,11 +1830,16 @@ int main (int argc, char **argv)
     glEnable( GL_DEPTH_TEST );
     glEnable(GL_NORMALIZE);
     glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT1);
+    glEnable(GL_LIGHT2);
     //glDisable(GL_COLOR_MATERIAL);
 
 
-    light();
-    subWindow1 = glutCreateSubWindow(mainWindow, 0,0,250,300);
+    light00();
+    light01();
+    light02();
+    subWindow1 = glutCreateSubWindow(mainWindow, 0,0,300,310);
     glutDisplayFunc(display1);
     glutKeyboardFunc(myKeyboardFunc);
     glutIdleFunc(animate);

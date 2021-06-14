@@ -2,34 +2,112 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
+	<File name="car.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3932" topLine="10" />
+		</Cursor>
+		<Folding>
+			<Collapse line="28" />
+			<Collapse line="46" />
+			<Collapse line="62" />
+			<Collapse line="84" />
+			<Collapse line="103" />
+			<Collapse line="181" />
+		</Folding>
+	</File>
 	<File name="BmpLoader.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="974" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="car.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="9623" topLine="348" />
-		</Cursor>
-	</File>
-	<File name="header.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="90" topLine="0" />
-		</Cursor>
-	</File>
 	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="27732" topLine="1192" />
+			<Cursor1 position="865" topLine="15" />
 		</Cursor>
+		<Folding>
+			<Collapse line="178" />
+			<Collapse line="293" />
+			<Collapse line="299" />
+			<Collapse line="323" />
+			<Collapse line="351" />
+			<Collapse line="383" />
+			<Collapse line="414" />
+			<Collapse line="466" />
+			<Collapse line="996" />
+			<Collapse line="1093" />
+			<Collapse line="1164" />
+			<Collapse line="1280" />
+			<Collapse line="1304" />
+			<Collapse line="1357" />
+			<Collapse line="1372" />
+			<Collapse line="1374" />
+			<Collapse line="1385" />
+			<Collapse line="1395" />
+			<Collapse line="1404" />
+			<Collapse line="1415" />
+			<Collapse line="1417" />
+			<Collapse line="1425" />
+			<Collapse line="1432" />
+			<Collapse line="1440" />
+			<Collapse line="1459" />
+			<Collapse line="1462" />
+			<Collapse line="1470" />
+			<Collapse line="1479" />
+			<Collapse line="1488" />
+			<Collapse line="1505" />
+			<Collapse line="1513" />
+			<Collapse line="1527" />
+			<Collapse line="1535" />
+			<Collapse line="1545" />
+			<Collapse line="1553" />
+			<Collapse line="1561" />
+			<Collapse line="1570" />
+			<Collapse line="1577" />
+			<Collapse line="1597" />
+			<Collapse line="1635" />
+			<Collapse line="1652" />
+			<Collapse line="1775" />
+		</Folding>
 	</File>
 	<File name="BmpLoader.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="65" topLine="0" />
 		</Cursor>
 	</File>
+	<File name="header.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="872" topLine="0" />
+		</Cursor>
+	</File>
 	<File name="scene.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1566" topLine="0" />
+			<Cursor1 position="13541" topLine="125" />
 		</Cursor>
+		<Folding>
+			<Collapse line="13" />
+			<Collapse line="32" />
+			<Collapse line="50" />
+			<Collapse line="74" />
+			<Collapse line="97" />
+			<Collapse line="134" />
+			<Collapse line="150" />
+			<Collapse line="169" />
+			<Collapse line="199" />
+			<Collapse line="215" />
+			<Collapse line="270" />
+			<Collapse line="494" />
+			<Collapse line="511" />
+			<Collapse line="514" />
+			<Collapse line="552" />
+			<Collapse line="553" />
+			<Collapse line="578" />
+			<Collapse line="581" />
+			<Collapse line="595" />
+			<Collapse line="635" />
+			<Collapse line="674" />
+			<Collapse line="706" />
+			<Collapse line="720" />
+			<Collapse line="807" />
+		</Folding>
 	</File>
 </CodeBlocks_layout_file>

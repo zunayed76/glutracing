@@ -178,21 +178,16 @@ void tireBezier()
 
 
 
-void ok()
+void ok(int tex)
 {
-    GLfloat mat_ambient[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat mat_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat mat_shininess[] = {60};
+    matColor(0.9,0.9,0.9);
 
-    glMaterialfv( GL_FRONT, GL_AMBIENT, mat_ambient);
-    glMaterialfv( GL_FRONT, GL_DIFFUSE, mat_diffuse);
-    glMaterialfv( GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv( GL_FRONT, GL_SHININESS, mat_shininess);
+
+
 
     ///uprer aboron
     glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,IDe[1]);
+    glBindTexture(GL_TEXTURE_2D,IDe[tex]);
     glPushMatrix();
     glBegin(GL_QUAD_STRIP);    /// quad er 4 ta point
    // glColor3f(1,1,1);
@@ -363,13 +358,48 @@ void ok()
 
 
 
+///red light
+
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,IDe[20]);
+    glPushMatrix();
+
+    glTranslatef(0,0,-2);
+    glScalef(0.1,0.1,0.1);
+    light01();
+    cube();
+    glPopMatrix();
+    glPushMatrix();
+
+    glTranslatef(-1.6,-2.5,-2);
+    glScalef(0.4,0.8,0.1);
+    light01();
+    cube();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(1.6,-2.5,-2);
+    glScalef(0.4,0.8,0.1);
+    light01();
+    cube();
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
+
+
+
+
+
+
+
+
+
 
 
 
 
 
     glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D,IDe[0]);
+    glBindTexture(GL_TEXTURE_2D,IDe[16]);
     glPushMatrix();        /// chaka
     //glRotatef(90,0,1,0);
     glTranslatef(-2,-4,5);    /// z okkho = x okkho

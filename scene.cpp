@@ -26,8 +26,25 @@ void startb()
 
 void endb()
 {
-
+;
 }
+
+void ostacs(int son, int tex)
+{
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D,IDe[tex]);
+    for (int i=0;i<son;i++) {
+    glPushMatrix();
+    glTranslatef(0,0,i*9);
+    glRotatef(rotlimO,0,1,0);
+    glScalef(0.25,0.25,0.25);
+    //light02();
+    cube();
+    glPopMatrix();
+    }
+    glDisable(GL_TEXTURE_2D);
+}
+
 
 
 void streetlight(int son)
@@ -46,7 +63,7 @@ void streetlight(int son)
     glPopMatrix();
     glPushMatrix();
     glTranslatef(0.25,1,4*i);
-    glScalef(0.5,0.1,0.1);
+    glScalef(0.5,0.75,0.1);
     light02();
     glPopMatrix();
 
@@ -358,16 +375,7 @@ void basescene()
 {
 
 
-
-    GLfloat mat_ambient[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat mat_diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat mat_shininess[] = {60};
-
-    glMaterialfv( GL_FRONT, GL_AMBIENT, mat_ambient);
-    glMaterialfv( GL_FRONT, GL_DIFFUSE, mat_diffuse);
-    glMaterialfv( GL_FRONT, GL_SPECULAR, mat_specular);
-    glMaterialfv( GL_FRONT, GL_SHININESS, mat_shininess);
+    matColor(0.8,0.8,0.8);
 
 
 
@@ -703,6 +711,7 @@ void minar_circle(float h,float w,float l)
         glPushMatrix();
         glRotatef(i,0,0,1);
         glScalef(h,l,w);
+        //glColor3f(1,0,0);
         cube();
         glPopMatrix();
     }
@@ -869,67 +878,7 @@ void building()
 }
 
 
-///building pop korle use korbo
-//glPushMatrix();
-//    glScalef(1.5,5,0.75);
-//    glTranslatef(-1,0,10);
-//    building();
-//    glPopMatrix();
-//    glPushMatrix();
-//    glScalef(1.5,5,0.75);
-//    glTranslatef(-1,0,18);
-//    building();
-//    glPopMatrix();
-//    glPushMatrix();
-//    glScalef(1.5,5,0.75);
-//    glTranslatef(-1,0,22);
-//    building();
-//    glPopMatrix();
-//    glPushMatrix();
-//    glScalef(1.5,5,0.75);
-//    glTranslatef(-1,0,26);
-//    building();
-//    glPopMatrix();
-//    glPushMatrix();
-//    glScalef(1.5,5,0.75);
-//    glTranslatef(-1,0,30);
-//    building();
-//    glPopMatrix();
-//
-//
-//
-//
-//    glPushMatrix();
-//    glScalef(1.5,5,0.75);
-//    glTranslatef(-9,0,18);
-//    building();
-//    glPopMatrix();
-//    glPushMatrix();
-//    glScalef(1.5,5,0.75);
-//    glTranslatef(-9,0,20);
-//    building();
-//    glPopMatrix();
-//    glPushMatrix();
-//    glScalef(1.5,5,0.75);
-//    glTranslatef(-9,0,22);
-//    building();
-//    glPopMatrix();
-//    glPushMatrix();
-//    glScalef(1.5,5,0.75);
-//    glTranslatef(-9,0,24);
-//    building();
-//    glPopMatrix();
-
-
-
-
-
-
-
-
-
-
-
+///
 
 
 
